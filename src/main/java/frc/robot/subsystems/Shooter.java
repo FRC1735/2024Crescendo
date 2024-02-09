@@ -4,15 +4,20 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
+  private final CANSparkFlex topMotor = new CANSparkFlex(Constants.ShooterConstants.topMotor, MotorType.kBrushless);
+  private final CANSparkFlex bottomMotor = new CANSparkFlex(Constants.ShooterConstants.bottomMotor,
+      MotorType.kBrushless);
 
-  
-  private final CANSparkFlex topMotor = new CANSparkMax(Constants.ShooterConstants.topMotor,MotorType.kBrushless);
-  private final CANSparkFlex bottomMotor = new CANSparkMax(Constraints.ShooterConstants.bottomMotor,MotorType.kBrushless);
   /** Creates a new Shooter. */
-  public Shooter() {}
+  public Shooter() {
+  }
 
   public void shootOn() {
 

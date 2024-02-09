@@ -4,30 +4,31 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Axel extends SubsystemBase {
-  private final CANSparkMax leftMotor = new CANSparkMax(Constants.AxelConstants.leftMotor,MotorType.kBrushless);
-  private final CANSparkMax rightMotor = new CANSparkMax(Constraints.AxelConstants.rightMotor,MotorType.kBrushless);
+  private final CANSparkMax leftMotor = new CANSparkMax(Constants.AxelConstants.leftMotor, MotorType.kBrushless);
+  private final CANSparkMax rightMotor = new CANSparkMax(Constants.AxelConstants.rightMotor, MotorType.kBrushless);
+
   /** Creates a new Axel. */
-  public Axel() {}
+  public Axel() {
+  }
 
- public void pickUp() {
+  public void pickUp() {
 
- };
+  };
 
+  public void speaker() {
 
- public void speaker() {
+  };
 
- };
+  public void amp() {
 
-public void amp() {
-
-
-};
-  
-
-
+  };
 
   @Override
   public void periodic() {
