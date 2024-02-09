@@ -7,8 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Axel extends SubsystemBase {
-  private final CANSparkMax leftMotor = new CANSparkMax(0,MotorType.kBrushless);
-  private final CANSparkMax rightMotor = new CANSparkMax(0,MotorType.kBrushless);
+  private final CANSparkMax leftMotor = new CANSparkMax(Constants.AxelConstants.leftMotor,MotorType.kBrushless);
+  private final CANSparkMax rightMotor = new CANSparkMax(Constraints.AxelConstants.rightMotor,MotorType.kBrushless);
   /** Creates a new Axel. */
   public Axel() {}
 
