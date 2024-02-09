@@ -3,11 +3,19 @@ package frc.robot.subsystems;
 import java.io.File;
 import java.util.function.DoubleSupplier;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
@@ -26,6 +34,24 @@ public class SwerveSubsystem extends SubsystemBase {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        AutoBuilder.configureHolonomic(
+                this::getPose,
+                this::resetOdometry,
+                this::getRobotOrientedVelocity,
+                this::setChassisSpeed,
+                new HolonomicPathFollowerConfig(
+                        new PIDConstants(Constants.kSwerveAutoPIDP, Constants.kSwerveAutoPIDI,
+                                Constants.kSwerveAutoPIDD),
+                        new PIDConstants(
+                                swerveDrive.swerveController.config.headingPIDF.p,
+                                swerveDrive.swerveController.config.headingPIDF.i,
+                                swerveDrive.swerveController.config.headingPIDF.d),
+                        Constants.kMaxModuleSpeed,
+                        Units.feetToMeters(Constants.kDriveBaseRadius),
+                        new ReplanningConfig()),
+                this::shouldPathFlip,
+                this);
 
         SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     }
@@ -63,5 +89,30 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void driveFieldOriented(ChassisSpeeds velocity) {
         swerveDrive.driveFieldOriented(velocity);
+    }
+
+    public Pose2d getPose() {
+        return swerveDrive.getPose();
+    }
+
+    public void resetOdometry(Pose2d pose) {
+        swerveDrive.resetOdometry(pose);
+    }
+
+    public ChassisSpeeds getRobotOrientedVelocity() {
+        return swerveDrive.getRobotVelocity();
+    }
+
+    public void setChassisSpeed(ChassisSpeeds velocity) {
+        swerveDrive.setChassisSpeeds(velocity);
+    }
+
+    public boolean shouldPathFlip() {
+        var alliance = DriverStation.getAlliance();
+
+        if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
     }
 }
