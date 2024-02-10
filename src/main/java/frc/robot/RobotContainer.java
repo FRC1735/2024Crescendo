@@ -14,7 +14,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
   // Subsystems
-  private final SwerveSubsystem drive = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
+  private final SwerveSubsystem drive = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve-2023"));
 
   // Controllers
   XboxController driverController = new XboxController(0);
