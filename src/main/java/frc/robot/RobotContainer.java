@@ -1,47 +1,53 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
+import java.io.File;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.SwerveSubsystem;
 
 public class RobotContainer {
   // Subsystems
-  private final DriveSubsystem drive = new DriveSubsystem();
+  private final SwerveSubsystem drive = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
 
   // Controllers
-  XboxController driveController = new XboxController(Constants.OIConstants.kDriverControllerPort);
+  XboxController driverController = new XboxController(0);
 
   public RobotContainer() {
     configureBindings();
-    configureShuffleboard();
 
-    drive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> drive.drive(
-                -MathUtil.applyDeadband(driveController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(driveController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(driveController.getRightX(), OIConstants.kDriveDeadband),
-                true, true),
-            drive));
+    Command driveFieldOrientedDirectAngle = drive.driveCommand(
+        () -> MathUtil.applyDeadband(driverController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> {
+          double rightX = driverController.getRightX();
+          // System.out.println("RightX: " + rightX);
+          return rightX;
+        },
+        () -> {
+          double rightY = driverController.getRightY();
+          // System.out.println("RightY: " + rightY);
+          return rightY;
+        });
+
+    Command driveFieldOrientedAnglularVelocity = drive.driveCommand(
+        () -> MathUtil.applyDeadband(driverController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> driverController.getRawAxis(2));
+
+    // drive.setDefaultCommand(driveFieldOrientedDirectAngle);
+    drive.setDefaultCommand(driveFieldOrientedAnglularVelocity);
   }
 
   private void configureBindings() {
-  }
-
-  private void configureShuffleboard() {
-    SmartDashboard.putData("Zero Swerve IMU", new InstantCommand(drive::zeroHeading, drive));
+    // 6 -> right bumper on Xbox Controller
+    new JoystickButton(driverController, 6).onTrue((new InstantCommand(drive::zeroGyro)));
   }
 
   public Command getAutonomousCommand() {
