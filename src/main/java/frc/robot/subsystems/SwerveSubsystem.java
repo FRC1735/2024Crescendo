@@ -35,23 +35,25 @@ public class SwerveSubsystem extends SubsystemBase {
             throw new RuntimeException(e);
         }
 
-        AutoBuilder.configureHolonomic(
-                this::getPose,
-                this::resetOdometry,
-                this::getRobotOrientedVelocity,
-                this::setChassisSpeed,
-                new HolonomicPathFollowerConfig(
-                        new PIDConstants(Constants.kSwerveAutoPIDP, Constants.kSwerveAutoPIDI,
-                                Constants.kSwerveAutoPIDD),
-                        new PIDConstants(
-                                swerveDrive.swerveController.config.headingPIDF.p,
-                                swerveDrive.swerveController.config.headingPIDF.i,
-                                swerveDrive.swerveController.config.headingPIDF.d),
-                        Constants.kMaxModuleSpeed,
-                        Units.feetToMeters(Constants.kDriveBaseRadius),
-                        new ReplanningConfig()),
-                this::shouldPathFlip,
-                this);
+        /*
+         * AutoBuilder.configureHolonomic(
+         * this::getPose,
+         * this::resetOdometry,
+         * this::getRobotOrientedVelocity,
+         * this::setChassisSpeed,
+         * new HolonomicPathFollowerConfig(
+         * new PIDConstants(Constants.kSwerveAutoPIDP, Constants.kSwerveAutoPIDI,
+         * Constants.kSwerveAutoPIDD),
+         * new PIDConstants(
+         * swerveDrive.swerveController.config.headingPIDF.p,
+         * swerveDrive.swerveController.config.headingPIDF.i,
+         * swerveDrive.swerveController.config.headingPIDF.d),
+         * Constants.kMaxModuleSpeed,
+         * Units.feetToMeters(Constants.kDriveBaseRadius),
+         * new ReplanningConfig()),
+         * this::shouldPathFlip,
+         * this);
+         */
 
         SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     }
