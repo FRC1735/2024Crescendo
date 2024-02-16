@@ -14,17 +14,21 @@ public class Shooter extends SubsystemBase {
   private final CANSparkFlex topMotor = new CANSparkFlex(Constants.ShooterConstants.topMotor, MotorType.kBrushless);
   private final CANSparkFlex bottomMotor = new CANSparkFlex(Constants.ShooterConstants.bottomMotor,
       MotorType.kBrushless);
+  private final double speed = 0.1;
 
   /** Creates a new Shooter. */
   public Shooter() {
+    topMotor.follow(bottomMotor);
+    // TODO - do we need to invert one of these?
   }
 
   public void shootOn() {
-
+    // TODO - direction might be wrong WRT real robot
+    topMotor.set(speed);
   };
 
   public void shootOff() {
-
+    topMotor.stopMotor();
   };
 
   @Override
