@@ -12,18 +12,25 @@ import frc.robot.Constants;
 
 public class Collector extends SubsystemBase {
   private final CANSparkMax motor = new CANSparkMax(Constants.CollectorConstants.motor, MotorType.kBrushless);
+  private final double speed = 0.1;
 
   /** Creates a new Collector. */
   public Collector() {
   }
 
+  // TODO - direction might be wrong WRT real robot
   public void in() {
-
+    motor.set(speed);
   };
 
+  // TODO - direction migth be wrong WRT real robot
   public void out() {
-
+    motor.set(-speed);
   };
+
+  public void stop() {
+    motor.stopMotor();
+  }
 
   @Override
   public void periodic() {
