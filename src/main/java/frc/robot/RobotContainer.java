@@ -26,6 +26,8 @@ public class RobotContainer {
   // Controllers
   XboxController driverController = new XboxController(0);
 
+  public static boolean DEBUG = true;
+
   public RobotContainer() {
     configureBindings();
 

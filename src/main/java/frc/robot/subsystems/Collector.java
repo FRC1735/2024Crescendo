@@ -7,15 +7,20 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.sensors.DistanceSensor;
 
 public class Collector extends SubsystemBase {
   private final CANSparkMax motor = new CANSparkMax(Constants.CollectorConstants.motor, MotorType.kBrushless);
   private final double speed = 0.1;
+  private final DistanceSensor distanceSensor;
 
   /** Creates a new Collector. */
   public Collector() {
+    distanceSensor = new DistanceSensor(0);
   }
 
   // TODO - direction might be wrong WRT real robot
@@ -35,5 +40,8 @@ public class Collector extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if (RobotContainer.DEBUG) {
+      SmartDashboard.putNumber("Distance Sensor", distanceSensor.getDistance());
+    }
   }
 }
