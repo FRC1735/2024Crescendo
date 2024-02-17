@@ -11,6 +11,7 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,7 +31,7 @@ public class Axel extends SubsystemBase {
     leftMotor.follow(rightMotor);
     // TODO - do we need to invert one of these?
 
-    absoluteEncoder = rightMotor.getAbsoluteEncoder();
+    absoluteEncoder = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);
     // TODO - set zero offset and inverted in Rev Hardware Client? This seems better
 
     // TODO - none of these values are real
