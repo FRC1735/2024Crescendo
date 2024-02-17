@@ -4,7 +4,7 @@
     "left": -10.875
   },
   "drive": {
-    "type": "sparkmax",
+    "type": "sparkflex",
     "id": 17,
     "canbus": null
   },
