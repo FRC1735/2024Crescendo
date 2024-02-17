@@ -5,30 +5,35 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
-  private final CANSparkFlex topMotor = new CANSparkFlex(Constants.ShooterConstants.topMotor, MotorType.kBrushless);
-  private final CANSparkFlex bottomMotor = new CANSparkFlex(Constants.ShooterConstants.bottomMotor,
-      MotorType.kBrushless);
-  private final double speed = 0.1;
+  private final CANSparkFlex topMotor;
+  private final CANSparkFlex bottomMotor;
+  private final double speed = 1;
 
   /** Creates a new Shooter. */
   public Shooter() {
-    topMotor.follow(bottomMotor);
+    topMotor = new CANSparkFlex(Constants.ShooterConstants.topMotor, MotorType.kBrushless);
+    bottomMotor = new CANSparkFlex(Constants.ShooterConstants.bottomMotor, MotorType.kBrushless);
+    topMotor.follow(bottomMotor, true);
+
+    topMotor.setIdleMode(IdleMode.kCoast);
+    bottomMotor.setIdleMode(IdleMode.kCoast);
     // TODO - do we need to invert one of these?
   }
 
   public void shootOn() {
     // TODO - direction might be wrong WRT real robot
-    topMotor.set(speed);
+    bottomMotor.set(-speed);
   };
 
   public void shootOff() {
-    topMotor.stopMotor();
+    bottomMotor.stopMotor();
   };
 
   @Override

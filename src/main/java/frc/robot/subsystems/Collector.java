@@ -14,23 +14,24 @@ import frc.robot.RobotContainer;
 import frc.robot.sensors.DistanceSensor;
 
 public class Collector extends SubsystemBase {
-  private final CANSparkMax motor = new CANSparkMax(Constants.CollectorConstants.motor, MotorType.kBrushless);
-  private final double speed = 0.1;
+  private final CANSparkMax motor;
+  private final double speed = 1;
   private final DistanceSensor distanceSensor;
 
   /** Creates a new Collector. */
   public Collector() {
+    motor = new CANSparkMax(Constants.CollectorConstants.motor, MotorType.kBrushless);
     distanceSensor = new DistanceSensor(0);
   }
 
   // TODO - direction might be wrong WRT real robot
   public void in() {
-    motor.set(speed);
+    motor.set(-speed);
   };
 
   // TODO - direction migth be wrong WRT real robot
   public void out() {
-    motor.set(-speed);
+    motor.set(speed);
   };
 
   public void stop() {
