@@ -13,10 +13,13 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import swervelib.SwerveDrive;
+import swervelib.SwerveModule;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
@@ -113,5 +116,17 @@ public class SwerveSubsystem extends SubsystemBase {
             return alliance.get() == DriverStation.Alliance.Red;
         }
         return false;
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+        if (RobotContainer.DEBUG) {
+            SwerveModule[] modules = swerveDrive.getModules();
+            for (int i = 0; i < 4; i++) {
+                SmartDashboard.putNumber("drive motor " + i, modules[i].getDriveMotor().getVelocity());
+            }
+            SmartDashboard.putNumber("swerve gyro yaw (degrees)", swerveDrive.getYaw().getDegrees());
+        }
     }
 }
