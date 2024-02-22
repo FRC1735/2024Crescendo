@@ -27,6 +27,14 @@ public class Shooter extends SubsystemBase {
     // TODO - do we need to invert one of these?
   }
 
+  public void shoot50() {
+    bottomMotor.set(-speed * 0.5);
+  }
+
+  public void shoot18() {
+    bottomMotor.set(-speed * 0.18);
+  }
+
   public void shootOn() {
     // TODO - direction might be wrong WRT real robot
     bottomMotor.set(-speed);
