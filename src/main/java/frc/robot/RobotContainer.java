@@ -47,21 +47,33 @@ public class RobotContainer {
           return rightY;
         });
 
-    Command driveFieldOrientedAnglularVelocity = drive.driveCommand(
-        () -> MathUtil.applyDeadband(driverController.getLeftY(),
-            OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverController.getLeftX(),
-            OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverController.getRawAxis(2));
-
-    // drive.setDefaultCommand(driveFieldOrientedDirectAngle);
-    drive.setDefaultCommand(driveFieldOrientedAnglularVelocity);
-
+    drive.setDefaultCommand(driveFieldOrientedDirectAngle);
   }
 
   private void configureBindings() {
     // 6 -> right bumper on Xbox Controller
     new JoystickButton(driverController, 6).onTrue((new InstantCommand(drive::zeroGyro)));
+
+    // a button - send it!
+    new JoystickButton(driverController, 1).onTrue(new InstantCommand(collector::shoot, collector))
+        .onFalse(new InstantCommand(collector::stop, collector));
+
+    // b button - collect stop at sensor
+    // new JoystickButton(driverController, 2).onTrue(new
+    // InstantCommand(collector::in, collector));
+    // .onFalse(new InstantCommand(collector::stop, collector));
+
+    // b button
+    new JoystickButton(driverController, 2).onTrue(new InstantCommand(shooter::shoot50, shooter))
+        .onFalse(new InstantCommand(shooter::shootOff, shooter));
+
+    // x button
+    new JoystickButton(driverController, 3).onTrue(new InstantCommand(shooter::shootOn, shooter))
+        .onFalse(new InstantCommand(shooter::shootOff, shooter));
+
+    // y button
+    new JoystickButton(driverController, 4).onTrue(new InstantCommand(shooter::shoot18, shooter))
+        .onFalse(new InstantCommand(shooter::shootOff, shooter));
 
     //// SmartDashboard controls
     // Collector
@@ -80,5 +92,10 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
+  }
+
+  public void stopAllSubsystems() {
+    collector.stop();
+    shooter.shootOff();
   }
 }
