@@ -15,11 +15,11 @@
   },
   "inverted": {
     "angle": false,
-    "drive": true
+    "drive": false
   },
   "conversionFactor": {
     "angle": 360,
-    "drive": 0.04352533821882586
+    "drive": 0.3482452630996704
   },
   "encoder": {
     "type": "attached",

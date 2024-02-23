@@ -32,19 +32,19 @@ public class RobotContainer {
     configureBindings();
 
     Command driveFieldOrientedDirectAngle = drive.driveCommand(
-        () -> MathUtil.applyDeadband(driverController.getLeftY(),
+        () -> -MathUtil.applyDeadband(driverController.getLeftY(),
             OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverController.getLeftX(),
+        () -> -MathUtil.applyDeadband(driverController.getLeftX(),
             OperatorConstants.LEFT_X_DEADBAND),
         () -> {
           double rightX = driverController.getRightX();
           // System.out.println("RightX: " + rightX);
-          return rightX;
+          return -rightX;
         },
         () -> {
           double rightY = driverController.getRightY();
           // System.out.println("RightY: " + rightY);
-          return rightY;
+          return -rightY;
         });
 
     drive.setDefaultCommand(driveFieldOrientedDirectAngle);

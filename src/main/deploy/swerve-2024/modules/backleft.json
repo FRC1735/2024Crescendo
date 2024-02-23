@@ -22,10 +22,10 @@
     "id": 0,
     "canbus": null
   },
-  "absoluteEncoderOffset": 0.6619275212,
+  "absoluteEncoderOffset": 0.6585313081741333,
   "absoluteEncoderInverted": true,
   "inverted": {
-    "drive": true,
+    "drive": false,
     "angle": false
   }
 }
