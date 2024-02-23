@@ -24,18 +24,28 @@ public class Collector extends SubsystemBase {
     distanceSensor = new DistanceSensor(0);
   }
 
-  // TODO - direction might be wrong WRT real robot
+  public void shoot() {
+    motor.set(-speed);
+  }
+
   public void in() {
     motor.set(-speed);
   };
 
-  // TODO - direction migth be wrong WRT real robot
   public void out() {
     motor.set(speed);
   };
 
   public void stop() {
     motor.stopMotor();
+  }
+
+  public boolean noteReadyToShoot() {
+    if (distanceSensor.getDistance() < 15) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override
