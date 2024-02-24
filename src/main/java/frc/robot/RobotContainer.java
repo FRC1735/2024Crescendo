@@ -53,41 +53,6 @@ public class RobotContainer {
   private void configureBindings() {
     // 6 -> right bumper on Xbox Controller
     new JoystickButton(driverController, 6).onTrue((new InstantCommand(drive::zeroGyro)));
-
-    // a button - send it!
-    new JoystickButton(driverController, 1).onTrue(new InstantCommand(collector::shoot, collector))
-        .onFalse(new InstantCommand(collector::stop, collector));
-
-    // b button - collect stop at sensor
-    // new JoystickButton(driverController, 2).onTrue(new
-    // InstantCommand(collector::in, collector));
-    // .onFalse(new InstantCommand(collector::stop, collector));
-
-    // b button
-    new JoystickButton(driverController, 2).onTrue(new InstantCommand(shooter::shoot50, shooter))
-        .onFalse(new InstantCommand(shooter::shootOff, shooter));
-
-    // x button
-    new JoystickButton(driverController, 3).onTrue(new InstantCommand(shooter::shootOn, shooter))
-        .onFalse(new InstantCommand(shooter::shootOff, shooter));
-
-    // y button
-    new JoystickButton(driverController, 4).onTrue(new InstantCommand(shooter::shoot18, shooter))
-        .onFalse(new InstantCommand(shooter::shootOff, shooter));
-
-    //// SmartDashboard controls
-    // Collector
-    SmartDashboard.putData("Collector In", new InstantCommand(collector::in, collector));
-    SmartDashboard.putData("Collector Out", new InstantCommand(collector::out, collector));
-    SmartDashboard.putData("Collector Stop", new InstantCommand(collector::stop, collector));
-
-    // Shooter
-    SmartDashboard.putData("Shooter On", new InstantCommand(shooter::shootOn, shooter));
-    SmartDashboard.putData("Shooter Off", new InstantCommand(shooter::shootOff, shooter));
-
-    // Axel
-    SmartDashboard.putData("Axel Pickup", new InstantCommand(axel::pickUp, axel));
-    SmartDashboard.putData("Axel Amp", new InstantCommand(axel::amp, axel));
   }
 
   public Command getAutonomousCommand() {
