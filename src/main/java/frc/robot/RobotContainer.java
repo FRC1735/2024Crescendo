@@ -62,13 +62,6 @@ public class RobotContainer {
     drive.setDefaultCommand(driveFieldOrientedDirectAngle);
   }
 
-  // 0.96 -> 1
-  // 0.99 -> 1
-  // 0.88 -> 1
-  // 0.60 -> 0.6
-  // 0.04 -> 0
-  // -0.04 -> 0
-
   private double snapToRightAngle(double i) {
     double snapThreshold = 0.2;
 
