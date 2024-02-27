@@ -28,7 +28,7 @@ public class Axel extends SubsystemBase {
   public Axel() {
     // rightMotor has absolute encoder attached to it
 
-    leftMotor.follow(rightMotor);
+    leftMotor.follow(rightMotor, true);
     // TODO - do we need to invert one of these?
 
     absoluteEncoder = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);
@@ -39,11 +39,12 @@ public class Axel extends SubsystemBase {
     // absoluteEncoder.setZeroOffset(.57);
 
     pidController = rightMotor.getPIDController();
+    pidController.setPositionPIDWrappingEnabled(false);
 
     // TODO - these are not real values
-    pidController.setP(1.2);
+    pidController.setP(1.5);
     pidController.setI(0);
-    pidController.setD(0.2);
+    pidController.setD(0);
     pidController.setFF(0);
 
     pidController.setOutputRange(-speed, speed);
@@ -59,7 +60,7 @@ public class Axel extends SubsystemBase {
 
   public void speaker() {
     // TODO - fake value
-    pidController.setReference(0, ControlType.kPosition);
+    pidController.setReference(0.3, ControlType.kPosition);
   };
 
   public void amp() {

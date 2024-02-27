@@ -73,6 +73,9 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
+    SmartDashboard.putData("Axel - Speaker", new InstantCommand(axel::speaker, axel));
+
     configureDriverController();
   }
 
