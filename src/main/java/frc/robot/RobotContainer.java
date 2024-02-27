@@ -31,6 +31,9 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
 
+    // TODO - hook up to button state if we want this?
+    boolean snapToRightAngleEnabled = false;
+
     Command driveFieldOrientedDirectAngle = drive.driveCommand(
         () -> -MathUtil.applyDeadband(driverController.getLeftY(),
             OperatorConstants.LEFT_Y_DEADBAND),
@@ -40,12 +43,20 @@ public class RobotContainer {
           double rightX = driverController.getRightX();
 
           SmartDashboard.putNumber("X", rightX);
-          return snapToRightAngle(-rightX);
+          if (snapToRightAngleEnabled) {
+            return snapToRightAngle(-rightX);
+          } else {
+            return rightX;
+          }
         },
         () -> {
           double rightY = driverController.getRightY();
           SmartDashboard.putNumber("Y", rightY);
-          return snapToRightAngle(-rightY);
+          if (snapToRightAngleEnabled) {
+            return snapToRightAngle(-rightY);
+          } else {
+            return -rightY;
+          }
         });
 
     drive.setDefaultCommand(driveFieldOrientedDirectAngle);
