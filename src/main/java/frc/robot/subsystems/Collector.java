@@ -15,7 +15,7 @@ import frc.robot.sensors.DistanceSensor;
 
 public class Collector extends SubsystemBase {
   private final CANSparkMax motor;
-  private final double speed = 1;
+  private final double collectionSpeed = 1;
   private final DistanceSensor distanceSensor;
 
   /** Creates a new Collector. */
@@ -25,15 +25,15 @@ public class Collector extends SubsystemBase {
   }
 
   public void shoot() {
-    motor.set(-speed);
+    motor.set(-collectionSpeed);
   }
 
   public void in() {
-    motor.set(-speed);
+    motor.set(-collectionSpeed);
   };
 
   public void out() {
-    motor.set(speed);
+    motor.set(collectionSpeed);
   };
 
   public void stop() {
@@ -41,7 +41,7 @@ public class Collector extends SubsystemBase {
   }
 
   public boolean noteReadyToShoot() {
-    if (distanceSensor.getDistance() < 15) {
+    if (distanceSensor.getDistance() < 25) {
       return true;
     } else {
       return false;
