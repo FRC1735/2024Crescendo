@@ -7,14 +7,19 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class Shooter extends SubsystemBase {
   private final CANSparkFlex topMotor;
   private final CANSparkFlex bottomMotor;
   private final double speed = 1;
+  private RelativeEncoder bottomEncoder;
+  private RelativeEncoder topEncoder;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -22,9 +27,14 @@ public class Shooter extends SubsystemBase {
     bottomMotor = new CANSparkFlex(Constants.ShooterConstants.bottomMotor, MotorType.kBrushless);
     topMotor.follow(bottomMotor, true);
 
+    // NOTE: if you call CANSparkFlex.getEncoder() more than one time
+    // NOTE: you get an illegal state exception
+    // NOTE: _I think_ it is trying to reinitialize the encoder when it happens
+    bottomEncoder = bottomMotor.getEncoder();
+    topEncoder = topMotor.getEncoder();
+
     topMotor.setIdleMode(IdleMode.kCoast);
     bottomMotor.setIdleMode(IdleMode.kCoast);
-    // TODO - do we need to invert one of these?
   }
 
   public void shoot50() {
@@ -36,7 +46,6 @@ public class Shooter extends SubsystemBase {
   }
 
   public void shootOn() {
-    // TODO - direction might be wrong WRT real robot
     bottomMotor.set(-speed);
   };
 
@@ -46,6 +55,9 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    if (RobotContainer.DEBUG) {
+      SmartDashboard.putNumber("topVelocity", topEncoder.getVelocity());
+      SmartDashboard.putNumber("bottomVelocity", bottomEncoder.getVelocity());
+    }
   }
 }
