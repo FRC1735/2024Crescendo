@@ -4,14 +4,20 @@ import java.io.File;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.PickUpNote;
+import frc.robot.commands.ShootNote;
 import frc.robot.subsystems.Axel;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -22,6 +28,7 @@ public class RobotContainer {
   private final Collector collector = new Collector();
   private final Shooter shooter = new Shooter();
   private final Axel axel = new Axel();
+  private final Climber climber = new Climber();
 
   // Controllers
   XboxController driverController = new XboxController(0);
@@ -41,8 +48,6 @@ public class RobotContainer {
             OperatorConstants.LEFT_X_DEADBAND),
         () -> {
           double rightX = driverController.getRightX();
-
-          SmartDashboard.putNumber("X", rightX);
           if (snapToRightAngleEnabled) {
             return snapToRightAngle(-rightX);
           } else {
@@ -51,7 +56,6 @@ public class RobotContainer {
         },
         () -> {
           double rightY = driverController.getRightY();
-          SmartDashboard.putNumber("Y", rightY);
           if (snapToRightAngleEnabled) {
             return snapToRightAngle(-rightY);
           } else {
@@ -77,27 +81,52 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-
-    SmartDashboard.putData("Axel - Speaker", new InstantCommand(axel::speaker, axel));
-
     configureDriverController();
   }
 
   private void configureDriverController() {
-    // 6 -> right bumper on Xbox Controller
-    new JoystickButton(driverController, 6).onTrue((new InstantCommand(drive::zeroGyro)));
+    // right bumper (6) -> right bumper on Xbox Controller
+    // new JoystickButton(driverController, 6).onTrue((new
+    // InstantCommand(drive::zeroGyro)));
 
-    // A -> swerve angle down (+ 1 is down)
+    // a (1) -> collect note
+    new JoystickButton(driverController, 1).onTrue(new InstantCommand(collector::in, collector))// new
+        // PickUpNote(collector))
+        .onFalse(new InstantCommand(collector::stop, collector));
+
+    // b (2) -> collect note with sensor enabeled
+    new JoystickButton(driverController, 2).onTrue(new PickUpNote(collector))
+        .onFalse(new InstantCommand(collector::stop, collector));
+
+    // x (3) -> shoot note - this should be revised to make sure the shooter gets to
+    // speed and then the collector runs
+    new JoystickButton(driverController, 3).onTrue(new InstantCommand(shooter::shoot, shooter))
+        .onFalse(
+            new SequentialCommandGroup(
+                // new InstantCommand(collector::stop, collector),
+                new InstantCommand(shooter::stop, shooter)));
+
+    new POVButton(driverController, 0).onTrue(new InstantCommand(axel::up,
+        axel))
+        .onFalse(new InstantCommand(axel::stop, axel));
+
+    new POVButton(driverController, 90).onTrue(new InstantCommand(axel::amp,
+        axel))
+        .onFalse(new InstantCommand(axel::stop, axel));
+
+    new POVButton(driverController, 180).onTrue(new InstantCommand(axel::down,
+        axel))
+        .onFalse(new InstantCommand(axel::stop, axel));
+
+    // Climber control
     /*
-     * new JoystickButton(driverController, 1)
-     * .onTrue(
-     * drive.driveCommand(
-     * () -> -MathUtil.applyDeadband(driverController.getLeftY(),
-     * OperatorConstants.LEFT_Y_DEADBAND),
-     * () -> -MathUtil.applyDeadband(driverController.getLeftX(),
-     * OperatorConstants.LEFT_X_DEADBAND),
-     * () -> 0,
-     * () -> 1));
+     * new POVButton(driverController, 0).onTrue(new InstantCommand(climber::in,
+     * climber))
+     * .onFalse(new InstantCommand(climber::stop, climber));
+     * 
+     * new POVButton(driverController, 180).onTrue(new InstantCommand(climber::out,
+     * climber))
+     * .onFalse(new InstantCommand(climber::stop, climber));
      */
   }
 
@@ -107,6 +136,7 @@ public class RobotContainer {
 
   public void stopAllSubsystems() {
     collector.stop();
-    shooter.shootOff();
+    shooter.stop();
+    climber.stop();
   }
 }
