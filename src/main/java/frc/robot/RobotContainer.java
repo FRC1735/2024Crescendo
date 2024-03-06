@@ -106,11 +106,7 @@ public class RobotContainer {
                 // new InstantCommand(collector::stop, collector),
                 new InstantCommand(shooter::stop, shooter)));
 
-    new POVButton(driverController, 0).onTrue(new InstantCommand(axel::up,
-        axel))
-        .onFalse(new InstantCommand(axel::stop, axel));
-
-    new POVButton(driverController, 90).onTrue(new InstantCommand(axel::amp,
+    new POVButton(driverController, 0).whileTrue(new InstantCommand(axel::up,
         axel))
         .onFalse(new InstantCommand(axel::stop, axel));
 

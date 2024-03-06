@@ -38,8 +38,6 @@ public class Axel extends SubsystemBase {
     // rightMotor has absolute encoder attached to it
 
     leftMotor.follow(rightMotor, true);
-    // TODO - do we need to invert one of these?
-
     absoluteEncoder = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);
     // TODO - set zero offset and inverted in Rev Hardware Client? This seems better
 
@@ -74,42 +72,44 @@ public class Axel extends SubsystemBase {
   }
 
   public void up() {
-    double pos = absoluteEncoder.getPosition();
-    if (pos + 0.03 < topEncoderLimit) {
-      pidController.setReference(pos - 0.03, ControlType.kPosition);
-    }
+    setReference(bottomEncoderLimit + 0.01);
   }
 
   public void down() {
-    double pos = absoluteEncoder.getPosition();
-    if (pos - 0.03 > bottomEncoderLimit) {
-      pidController.setReference(pos + 0.03, ControlType.kPosition);
-    }
+    setReference(topEncoderLimit - 0.01);
   }
 
   public void stop() {
     rightMotor.stopMotor();
   }
 
-  public void pickUp() {
-    // TODO - fake value
-    pidController.setReference(0.2, ControlType.kPosition);
-  };
+  private boolean setReference(double newPosition) {
+    if (atTopLimit(newPosition)
+        || atBottomLimit(newPosition)) {
+      // do nothing if new position would be over the limit
+      return false;
+    }
 
-  public void speaker() {
-    // TODO - fake value
-    pidController.setReference(0.4, ControlType.kPosition);
-  };
+    // otherwise go to new position
+    pidController.setReference(newPosition, ControlType.kPosition);
+    if (RobotContainer.DEBUG)
+      SmartDashboard.putBoolean("Axel - Near Limit", false);
+    return true;
+  }
 
-  public void amp() {
-    // TODO - fake value
-    pidController.setReference(0.3, ControlType.kPosition);
-  };
+  private boolean atTopLimit(double position) {
+    return position > topEncoderLimit;
+  }
+
+  private boolean atBottomLimit(double position) {
+    return position < bottomEncoderLimit;
+  }
 
   @Override
   public void periodic() {
     if (RobotContainer.DEBUG) {
-      SmartDashboard.putNumber("Axel Encoder", absoluteEncoder.getPosition());
+      double currentPosition = absoluteEncoder.getPosition();
+      SmartDashboard.putNumber("Axel Encoder", currentPosition);
 
       double sdP = SmartDashboard.getNumber("Axel - P", 0);
       double sdI = SmartDashboard.getNumber("Axel - I", 0);
@@ -129,6 +129,9 @@ public class Axel extends SubsystemBase {
       lastKnownP = pidController.getP();
       lastKnownI = pidController.getI();
       lastKnownD = pidController.getD();
+
+      SmartDashboard.putBoolean("Axel - Bottom Limit?", atBottomLimit(currentPosition));
+      SmartDashboard.putBoolean("Axel - Top Limit?", atTopLimit(currentPosition));
     }
   }
 }
