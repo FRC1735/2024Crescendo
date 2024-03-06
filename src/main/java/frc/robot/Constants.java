@@ -38,4 +38,8 @@ public final class Constants {
   public static final class CollectorConstants {
     public static final int motor = 5;
   }
+
+  public static final class ClimberConstants {
+    public static final int motor = 6;
+  }
 }
