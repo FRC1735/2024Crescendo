@@ -31,7 +31,7 @@ public class Axel extends SubsystemBase {
 
   // TODO
   private double topEncoderLimit = 0.36;
-  private double bottomEncoderLimit = 0.21;
+  private double bottomEncoderLimit = 0.20;
 
   /** Creates a new Axel. */
   public Axel() {
