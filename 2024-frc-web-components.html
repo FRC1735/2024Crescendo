@@ -1,0 +1,337 @@
+<dashboard-tab
+    tab-name="TeleOperated"
+    slot="tab"
+    selected=""
+    source-provider="NetworkTables"
+    source-key="/SmartDashboard/Distance Sensor"
+><frc-swerve-drivebase
+        source-provider="NetworkTables"
+        style="transform: translate(381.5px, 81px);"
+        source-key="/SmartDashboard/swerve"
+        wheellocations="[2.5,2,2.5,-2,-2.5,2,-2.5,-2]"
+        measuredstates="[0,0,0,0,0,0,0,0]"
+        desiredstates="[0,0,0,0,0,0,0,0]"
+        sizeleftright="4"
+        sizefrontback="5"
+    ></frc-swerve-drivebase><frc-sendable-chooser
+        source-provider="NetworkTables"
+        style="transform: translate(0px, 472.5px);"
+        options="[]"
+    ></frc-sendable-chooser><vaadin-number-field
+        label="Drive - P"
+        value="0"
+        has-label=""
+        source-provider="NetworkTables"
+        style="transform: translate(170px, 551px);"
+        has-value=""
+        source-key="/SmartDashboard/Drive - P"
+        min="NaN"
+        max="NaN"
+        placeholder=""
+    ><input
+            slot="input"
+            value="0"
+            type="number"
+            id="vaadin-number-field-2"
+            aria-labelledby="label-vaadin-number-field-184"
+            aria-describedby=""
+            min="NaN"
+            max="NaN"
+            step="any"
+        ><label
+            slot="label"
+            id="label-vaadin-number-field-184"
+            for="vaadin-number-field-2"
+        >Drive - P</label>
+        <div
+            slot="error-message"
+            id="error-message-vaadin-number-field-144"
+            hidden=""
+        ></div>
+    </vaadin-number-field><frc-gyro
+        source-provider="NetworkTables"
+        style="transform: translate(0px, 62px);"
+        source-key="/SmartDashboard/swerve gyro yaw (degrees)"
+    ></frc-gyro><vaadin-number-field
+        label="Distance Sensor"
+        value="0"
+        has-value=""
+        has-label=""
+        source-provider="NetworkTables"
+        style="transform: translate(21px, 551px);"
+        source-key="/SmartDashboard/Distance Sensor"
+        min="NaN"
+        max="NaN"
+        placeholder=""
+    ><input
+            slot="input"
+            value="0"
+            type="number"
+            id="vaadin-number-field-3"
+            aria-labelledby="label-vaadin-number-field-262"
+            aria-describedby=""
+            min="NaN"
+            max="NaN"
+            step="any"
+        ><label
+            slot="label"
+            id="label-vaadin-number-field-262"
+            for="vaadin-number-field-3"
+        >Distance Sensor</label>
+        <div
+            slot="error-message"
+            id="error-message-vaadin-number-field-197"
+            hidden=""
+        ></div>
+    </vaadin-number-field><vaadin-number-field
+        label="Drive - I"
+        value="0"
+        has-value=""
+        has-label=""
+        source-provider="NetworkTables"
+        style="transform: translate(300.5px, 550px);"
+        source-key="/SmartDashboard/Drive - I"
+        min="NaN"
+        max="NaN"
+        placeholder=""
+    ><input
+            slot="input"
+            value="0"
+            type="number"
+            id="vaadin-number-field-4"
+            aria-labelledby="label-vaadin-number-field-288"
+            aria-describedby=""
+            min="NaN"
+            max="NaN"
+            step="any"
+        ><label
+            slot="label"
+            id="label-vaadin-number-field-288"
+            for="vaadin-number-field-4"
+        >Drive - I</label>
+        <div
+            slot="error-message"
+            id="error-message-vaadin-number-field-215"
+            hidden=""
+        ></div>
+    </vaadin-number-field><vaadin-number-field
+        label="Drive - D"
+        value="0"
+        has-value=""
+        has-label=""
+        source-provider="NetworkTables"
+        style="transform: translate(430.5px, 549.5px);"
+        source-key="/SmartDashboard/Drive - D"
+        min="NaN"
+        max="NaN"
+        placeholder=""
+    ><input
+            slot="input"
+            value="0"
+            type="number"
+            id="vaadin-number-field-5"
+            aria-labelledby="label-vaadin-number-field-289"
+            aria-describedby=""
+            min="NaN"
+            max="NaN"
+            step="any"
+        ><label
+            slot="label"
+            id="label-vaadin-number-field-289"
+            for="vaadin-number-field-5"
+        >Drive - D</label>
+        <div
+            slot="error-message"
+            id="error-message-vaadin-number-field-216"
+            hidden=""
+        ></div>
+    </vaadin-number-field><vaadin-number-field
+        label="Shooter Top"
+        value="0"
+        has-value=""
+        has-label=""
+        source-provider="NetworkTables"
+        style="transform: translate(191px, 672px);"
+        min="NaN"
+        max="NaN"
+        source-key="/SmartDashboard/topVelocity"
+        placeholder=""
+    ><input
+            slot="input"
+            value="0"
+            type="number"
+            id="vaadin-number-field-6"
+            aria-labelledby="label-vaadin-number-field-424"
+            aria-describedby=""
+            min="NaN"
+            max="NaN"
+            step="any"
+        ><label
+            slot="label"
+            id="label-vaadin-number-field-424"
+            for="vaadin-number-field-6"
+        >Shooter Top</label>
+        <div
+            slot="error-message"
+            id="error-message-vaadin-number-field-307"
+            hidden=""
+        ></div>
+    </vaadin-number-field><vaadin-number-field
+        label="Shooter Bottom"
+        value="0"
+        has-value=""
+        has-label=""
+        source-provider="NetworkTables"
+        style="transform: translate(361px, 659.5px); width: 128px; height: 128.5px;"
+        min="NaN"
+        max="NaN"
+        source-key="/SmartDashboard/bottomVelocity"
+        placeholder=""
+    ><input
+            slot="input"
+            value="0"
+            type="number"
+            id="vaadin-number-field-7"
+            aria-labelledby="label-vaadin-number-field-425"
+            aria-describedby=""
+            min="NaN"
+            max="NaN"
+            step="any"
+        ><label
+            slot="label"
+            id="label-vaadin-number-field-425"
+            for="vaadin-number-field-7"
+        >Shooter Bottom</label>
+        <div
+            slot="error-message"
+            id="error-message-vaadin-number-field-308"
+            hidden=""
+        ></div>
+    </vaadin-number-field><vaadin-number-field
+        label="Axel"
+        value="0"
+        has-value=""
+        has-label=""
+        source-provider="NetworkTables"
+        style="transform: translate(564px, 663px);"
+        source-key="/SmartDashboard/Axel Encoder"
+        min="NaN"
+        max="NaN"
+    ><input
+            slot="input"
+            value="0"
+            type="number"
+            id="vaadin-number-field-8"
+            aria-labelledby="label-vaadin-number-field-62"
+            aria-describedby=""
+            min="NaN"
+            max="NaN"
+            step="any"
+        ><label
+            slot="label"
+            id="label-vaadin-number-field-62"
+            for="vaadin-number-field-8"
+        >Label</label>
+        <div
+            slot="error-message"
+            id="error-message-vaadin-number-field-46"
+            hidden=""
+        ></div>
+    </vaadin-number-field><vaadin-number-field
+        label="Axel - I"
+        value="0"
+        has-value=""
+        has-label=""
+        source-provider="NetworkTables"
+        style="transform: translate(372.5px, 455.5px);"
+        source-key="/SmartDashboard/Axel - I"
+        placeholder=""
+        min="NaN"
+        max="NaN"
+    ><input
+            slot="input"
+            value="0"
+            type="number"
+            id="vaadin-number-field-24"
+            aria-labelledby="label-vaadin-number-field-24"
+            aria-describedby=""
+            min="undefined"
+            max="undefined"
+            step="any"
+        ><label
+            slot="label"
+            id="label-vaadin-number-field-24"
+            for="vaadin-number-field-24"
+        >Axel - I</label>
+        <div
+            slot="error-message"
+            id="error-message-vaadin-number-field-20"
+            hidden=""
+        ></div>
+    </vaadin-number-field><vaadin-number-field
+        label="Axel - D"
+        value="0"
+        has-value=""
+        has-label=""
+        source-provider="NetworkTables"
+        style="transform: translate(505px, 454px);"
+        source-key="/SmartDashboard/Axel - D"
+        placeholder=""
+        min="NaN"
+        max="NaN"
+    ><input
+            slot="input"
+            value="0"
+            type="number"
+            id="vaadin-number-field-25"
+            aria-labelledby="label-vaadin-number-field-25"
+            aria-describedby=""
+            min="undefined"
+            max="undefined"
+            step="any"
+        ><label
+            slot="label"
+            id="label-vaadin-number-field-25"
+            for="vaadin-number-field-25"
+        >Axel - D</label>
+        <div
+            slot="error-message"
+            id="error-message-vaadin-number-field-21"
+            hidden=""
+        ></div>
+    </vaadin-number-field><vaadin-number-field
+        label="Axel - P"
+        value="0"
+        has-value=""
+        has-label=""
+        source-provider="NetworkTables"
+        style="transform: translate(240px, 456px);"
+        source-key="/SmartDashboard/Axel - P"
+        placeholder=""
+        min="NaN"
+        max="NaN"
+    ><input
+            slot="input"
+            value="0"
+            type="number"
+            id="vaadin-number-field-26"
+            aria-labelledby="label-vaadin-number-field-26"
+            aria-describedby=""
+            min="undefined"
+            max="undefined"
+            step="any"
+        ><label
+            slot="label"
+            id="label-vaadin-number-field-26"
+            for="vaadin-number-field-26"
+        >Axel - P</label>
+        <div
+            slot="error-message"
+            id="error-message-vaadin-number-field-22"
+            hidden=""
+        ></div>
+    </vaadin-number-field></dashboard-tab><dashboard-tab
+    slot="tab"
+    tab-name="Autonomous"
+    source-provider="NetworkTables"
+></dashboard-tab>
