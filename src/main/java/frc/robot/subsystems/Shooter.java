@@ -37,19 +37,15 @@ public class Shooter extends SubsystemBase {
     bottomMotor.setIdleMode(IdleMode.kCoast);
   }
 
-  public void shoot50() {
-    bottomMotor.set(-speed * 0.5);
-  }
-
-  public void shoot18() {
-    bottomMotor.set(-speed * 0.18);
-  }
-
-  public void shootOn() {
+  public void shoot() {
     bottomMotor.set(-speed);
-  };
+  }
 
-  public void shootOff() {
+  public void shootAmp() {
+    bottomMotor.set(-speed * 0.2);
+  }
+
+  public void stop() {
     bottomMotor.stopMotor();
   };
 

@@ -26,7 +26,7 @@ public class ShootNote extends Command {
   @Override
   public void initialize() {
     // TODO - specify speed from caller
-    this.shooter.shoot18();
+    this.shooter.shoot();
     this.startTime = System.currentTimeMillis();
   }
 
