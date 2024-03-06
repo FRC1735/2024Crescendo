@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.ShootNote;
 import frc.robot.subsystems.Axel;
@@ -86,31 +87,20 @@ public class RobotContainer {
 
   private void configureDriverController() {
     // right bumper (6) -> right bumper on Xbox Controller
-    // new JoystickButton(driverController, 6).onTrue((new
-    // InstantCommand(drive::zeroGyro)));
-
-    // a (1) -> collect note
-    new JoystickButton(driverController, 1).onTrue(new InstantCommand(collector::in, collector))// new
-        // PickUpNote(collector))
-        .onFalse(new InstantCommand(collector::stop, collector));
+    new JoystickButton(driverController, 6).onTrue((new InstantCommand(drive::zeroGyro)));
 
     // b (2) -> collect note with sensor enabeled
-    new JoystickButton(driverController, 2).onTrue(new PickUpNote(collector))
-        .onFalse(new InstantCommand(collector::stop, collector));
+    new JoystickButton(driverController, 2).whileTrue(new PickUpNote(collector));
 
-    // x (3) -> shoot note - this should be revised to make sure the shooter gets to
-    // speed and then the collector runs
-    new JoystickButton(driverController, 3).onTrue(new InstantCommand(shooter::shoot, shooter))
-        .onFalse(
-            new SequentialCommandGroup(
-                // new InstantCommand(collector::stop, collector),
-                new InstantCommand(shooter::stop, shooter)));
+    // x (3) -> shoot note
+    new JoystickButton(driverController, 3)
+        .whileTrue(new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY));
 
-    new POVButton(driverController, 0).whileTrue(new InstantCommand(axel::up,
+    new POVButton(driverController, 180).whileTrue(new InstantCommand(axel::up,
         axel))
         .onFalse(new InstantCommand(axel::stop, axel));
 
-    new POVButton(driverController, 180).onTrue(new InstantCommand(axel::down,
+    new POVButton(driverController, 0).whileTrue(new InstantCommand(axel::down,
         axel))
         .onFalse(new InstantCommand(axel::stop, axel));
 

@@ -11,29 +11,29 @@ import frc.robot.subsystems.Shooter;
 public class ShootNote extends Command {
   private Shooter shooter;
   private Collector collector;
-  private long startTime;
-  private long SHOOTER_WARM_UP_TIME_MILLIS = 2000; // TODO - be smarter about this
+  private int velocity;
 
   /** Creates a new ShootNote. */
-  public ShootNote(Shooter shooter, Collector collector) {
+  public ShootNote(Shooter shooter, Collector collector, int velocity) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter, collector);
     this.shooter = shooter;
     this.collector = collector;
+    this.velocity = velocity;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // TODO - specify speed from caller
-    this.shooter.shoot();
-    this.startTime = System.currentTimeMillis();
+    this.shooter.shoot(velocity);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((startTime + SHOOTER_WARM_UP_TIME_MILLIS) > System.currentTimeMillis()) {
+    // TODO - close enough, we should tune shooter PID further and check when we
+    // reach the setpoint
+    if (shooter.getAverageVelocity() < (velocity + 200)) {
       this.collector.in();
     }
   }
@@ -41,6 +41,8 @@ public class ShootNote extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    shooter.stop();
+    collector.stop();
   }
 
   // Returns true when the command should end.

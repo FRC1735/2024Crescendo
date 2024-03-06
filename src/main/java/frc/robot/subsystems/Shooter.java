@@ -5,10 +5,13 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -17,9 +20,9 @@ import frc.robot.RobotContainer;
 public class Shooter extends SubsystemBase {
   private final CANSparkFlex topMotor;
   private final CANSparkFlex bottomMotor;
-  private final double speed = 1;
   private RelativeEncoder bottomEncoder;
   private RelativeEncoder topEncoder;
+  private SparkPIDController pidController;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -33,21 +36,29 @@ public class Shooter extends SubsystemBase {
     bottomEncoder = bottomMotor.getEncoder();
     topEncoder = topMotor.getEncoder();
 
+    this.pidController = bottomMotor.getPIDController();
+    pidController.setP(0.01);
+    pidController.setI(0.0);
+    pidController.setD(0);
+    pidController.setIZone(0.0);
+    pidController.setFF(0);
+    pidController.setOutputRange(-1, 0);
+
     topMotor.setIdleMode(IdleMode.kCoast);
     bottomMotor.setIdleMode(IdleMode.kCoast);
   }
 
-  public void shoot() {
-    bottomMotor.set(-speed);
-  }
-
-  public void shootAmp() {
-    bottomMotor.set(-speed * 0.2);
+  public void shoot(int velocity) {
+    pidController.setReference(velocity, ControlType.kVelocity);
   }
 
   public void stop() {
     bottomMotor.stopMotor();
   };
+
+  public double getAverageVelocity() {
+    return (topEncoder.getVelocity() + bottomEncoder.getVelocity() / 2);
+  }
 
   @Override
   public void periodic() {
