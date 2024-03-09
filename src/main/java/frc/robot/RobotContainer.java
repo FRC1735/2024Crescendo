@@ -34,8 +34,6 @@ public class RobotContainer {
   // Controllers
   XboxController driverController = new XboxController(0);
 
-  public static boolean DEBUG = true;
-
   public RobotContainer() {
     configureBindings();
 
@@ -52,7 +50,7 @@ public class RobotContainer {
           if (snapToRightAngleEnabled) {
             return snapToRightAngle(-rightX);
           } else {
-            return rightX;
+            return -rightX;
           }
         },
         () -> {

@@ -14,6 +14,8 @@ import frc.robot.RobotContainer;
 import frc.robot.sensors.DistanceSensor;
 
 public class Collector extends SubsystemBase {
+  private final boolean DEBUG = false;
+
   private final CANSparkMax motor;
   private final double collectionSpeed = 1;
   private final DistanceSensor distanceSensor;
@@ -51,7 +53,7 @@ public class Collector extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if (RobotContainer.DEBUG) {
+    if (DEBUG) {
       SmartDashboard.putNumber("Distance Sensor", distanceSensor.getDistance());
     }
   }

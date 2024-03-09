@@ -34,7 +34,7 @@ public final class Constants {
     public static final int topMotor = 3;
     public static final int bottomMotor = 4;
 
-    public static final int FULL_VELOCITY = -5900;
+    public static final int FULL_VELOCITY = -8500;
     public static final int AMP_VELOCITY = -1180;
   }
 

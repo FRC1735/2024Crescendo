@@ -18,6 +18,8 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class Shooter extends SubsystemBase {
+  private final boolean DEBUG = true;
+
   private final CANSparkFlex topMotor;
   private final CANSparkFlex bottomMotor;
   private RelativeEncoder bottomEncoder;
@@ -62,9 +64,10 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (RobotContainer.DEBUG) {
-      SmartDashboard.putNumber("topVelocity", topEncoder.getVelocity());
-      SmartDashboard.putNumber("bottomVelocity", bottomEncoder.getVelocity());
+    if (DEBUG) {
+      SmartDashboard.putNumber("Shooter - topVelocity", topEncoder.getVelocity());
+      SmartDashboard.putNumber("Shooter - bottomVelocity", bottomEncoder.getVelocity());
     }
+    SmartDashboard.putNumber("Shooter - Average Velocity", getAverageVelocity());
   }
 }

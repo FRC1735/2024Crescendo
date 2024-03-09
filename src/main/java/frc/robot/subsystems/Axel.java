@@ -20,6 +20,8 @@ import frc.robot.RobotContainer;
 import frc.utils.MathUtils;
 
 public class Axel extends SubsystemBase {
+  private final boolean DEBUG = true;
+
   private final CANSparkMax leftMotor = new CANSparkMax(Constants.AxelConstants.leftMotor, MotorType.kBrushless);
   private final CANSparkMax rightMotor = new CANSparkMax(Constants.AxelConstants.rightMotor, MotorType.kBrushless);
   private final SparkAbsoluteEncoder absoluteEncoder;
@@ -55,7 +57,7 @@ public class Axel extends SubsystemBase {
     pidController.setD(0);
     pidController.setFF(0);
 
-    if (RobotContainer.DEBUG) {
+    if (DEBUG) {
       lastKnownP = pidController.getP();
       lastKnownI = pidController.getI();
       lastKnownD = pidController.getD();
@@ -92,8 +94,6 @@ public class Axel extends SubsystemBase {
 
     // otherwise go to new position
     pidController.setReference(newPosition, ControlType.kPosition);
-    if (RobotContainer.DEBUG)
-      SmartDashboard.putBoolean("Axel - Near Limit", false);
     return true;
   }
 
@@ -107,9 +107,9 @@ public class Axel extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (RobotContainer.DEBUG) {
-      double currentPosition = absoluteEncoder.getPosition();
-      SmartDashboard.putNumber("Axel Encoder", currentPosition);
+    double currentPosition = absoluteEncoder.getPosition();
+
+    if (DEBUG) {
 
       double sdP = SmartDashboard.getNumber("Axel - P", 0);
       double sdI = SmartDashboard.getNumber("Axel - I", 0);
@@ -129,9 +129,10 @@ public class Axel extends SubsystemBase {
       lastKnownP = pidController.getP();
       lastKnownI = pidController.getI();
       lastKnownD = pidController.getD();
-
-      SmartDashboard.putBoolean("Axel - Bottom Limit?", atBottomLimit(currentPosition));
-      SmartDashboard.putBoolean("Axel - Top Limit?", atTopLimit(currentPosition));
     }
+
+    SmartDashboard.putNumber("Axel Encoder", currentPosition);
+    SmartDashboard.putBoolean("Axel - Bottom Limit?", atBottomLimit(currentPosition));
+    SmartDashboard.putBoolean("Axel - Top Limit?", atTopLimit(currentPosition));
   }
 }

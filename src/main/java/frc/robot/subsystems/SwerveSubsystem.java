@@ -28,6 +28,8 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 // Notice all the telemetry, pathplanner, etc. We should do that once things are running at a basic level.
 
 public class SwerveSubsystem extends SubsystemBase {
+    private final boolean DEBUG = false;
+
     private final SwerveDrive swerveDrive;
     public double maximumSpeed = Units.feetToMeters(14.5);
 
@@ -55,7 +57,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 this::shouldPathFlip,
                 this);
 
-        SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+        // SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     }
 
     public void zeroGyro() {
@@ -121,12 +123,12 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        if (RobotContainer.DEBUG) {
+        if (DEBUG) {
             SwerveModule[] modules = swerveDrive.getModules();
             for (int i = 0; i < 4; i++) {
                 SmartDashboard.putNumber("drive motor " + i, modules[i].getDriveMotor().getVelocity());
             }
-            SmartDashboard.putNumber("swerve gyro yaw (degrees)", swerveDrive.getYaw().getDegrees());
         }
+        SmartDashboard.putNumber("swerve gyro yaw (degrees)", swerveDrive.getYaw().getDegrees());
     }
 }
