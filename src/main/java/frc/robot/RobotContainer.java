@@ -2,6 +2,8 @@ package frc.robot;
 
 import java.io.File;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
@@ -31,11 +33,24 @@ public class RobotContainer {
   private final Axel axel = new Axel();
   private final Climber climber = new Climber();
 
+  // Commands
+  private final PickUpNote pickUpNoteCommand = new PickUpNote(collector);
+  private final ShootNote shootFullSpeedCommand = new ShootNote(shooter, collector, Constants.ShooterConstants.FULL_VELOCITY);
+  private final ShootNote shootAmpSpeedCommand =  new ShootNote(shooter, collector, Constants.ShooterConstants.AMP_VELOCITY);
+
   // Controllers
   XboxController driverController = new XboxController(0);
 
   public RobotContainer() {
     configureBindings();
+
+
+    // Register PathPlanner Commands
+    NamedCommands.registerCommand("PickUpNote", pickUpNoteCommand);
+    NamedCommands.registerCommand("ShootNote", shootFullSpeedCommand);
+    NamedCommands.registerCommand("ShootAmpNote", shootAmpSpeedCommand);
+
+
 
     // TODO - hook up to button state if we want this?
     boolean snapToRightAngleEnabled = false;
