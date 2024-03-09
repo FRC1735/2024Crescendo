@@ -2,8 +2,6 @@ package frc.robot;
 
 import java.io.File;
 
-import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
@@ -18,12 +16,16 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.PickUpNote;
+import frc.robot.commands.RotateAxel;
 import frc.robot.commands.ShootNote;
 import frc.robot.subsystems.Axel;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
+
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 public class RobotContainer {
   // Subsystems
@@ -35,8 +37,12 @@ public class RobotContainer {
 
   // Commands
   private final PickUpNote pickUpNoteCommand = new PickUpNote(collector);
-  private final ShootNote shootFullSpeedCommand = new ShootNote(shooter, collector, Constants.ShooterConstants.FULL_VELOCITY);
-  private final ShootNote shootAmpSpeedCommand =  new ShootNote(shooter, collector, Constants.ShooterConstants.AMP_VELOCITY);
+  private final ShootNote shootFullSpeedCommand = new ShootNote(shooter, collector,
+      Constants.ShooterConstants.FULL_VELOCITY);
+  private final ShootNote shootAmpSpeedCommand = new ShootNote(shooter, collector,
+      Constants.ShooterConstants.AMP_VELOCITY);
+  private final RotateAxel rotateAxelToCollect = new RotateAxel(axel, 0.2);
+  private final RotateAxel rotateAxelForSpeaker = new RotateAxel(axel, 0.255);
 
   // Controllers
   XboxController driverController = new XboxController(0);
@@ -44,13 +50,13 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
 
-
     // Register PathPlanner Commands
     NamedCommands.registerCommand("PickUpNote", pickUpNoteCommand);
     NamedCommands.registerCommand("ShootNote", shootFullSpeedCommand);
     NamedCommands.registerCommand("ShootAmpNote", shootAmpSpeedCommand);
-
-
+    NamedCommands.registerCommand("AxelAimSpeaker", rotateAxelForSpeaker);
+    NamedCommands.registerCommand("ResetGyro", new InstantCommand(drive::zeroGyro, drive));
+    NamedCommands.registerCommand("RotateAxelToCollect", rotateAxelToCollect);
 
     // TODO - hook up to button state if we want this?
     boolean snapToRightAngleEnabled = false;
@@ -130,7 +136,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    // return Commands.print("No autonomous command configured");
+    return new PathPlannerAuto("Left To Right");
   }
 
   public void stopAllSubsystems() {

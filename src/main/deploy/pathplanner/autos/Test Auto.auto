@@ -1,26 +1,119 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 1.34,
+      "y": 5.57
+    },
+    "rotation": 0
+  },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Speaker to Note"
+            "name": "ResetGyro"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "PickUpNote"
+            "name": "AxelAimSpeaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "RotateAxelToCollect"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Speaker to Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpNote"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Note to Speaker"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AxelAimSpeaker"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "RotateAxelToCollect"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Speaker to Left Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "PickUpNote"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Note to Speaker"
+            "pathName": "Left Note to Speaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AxelAimSpeaker"
           }
         },
         {

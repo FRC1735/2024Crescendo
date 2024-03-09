@@ -31,6 +31,7 @@ public class ShootNote extends Command {
   @Override
   public void initialize() {
     this.shooter.shoot(velocity);
+    this.timer.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,6 +41,9 @@ public class ShootNote extends Command {
     // reach the setpoint
     if (shooter.getAverageVelocity() < (velocity + 200)) {
       this.collector.in();
+      if (isShooting == false) {
+        this.timer.reset();
+      }
       this.isShooting = true;
       this.timer.start();
     }
@@ -50,6 +54,8 @@ public class ShootNote extends Command {
   public void end(boolean interrupted) {
     shooter.stop();
     collector.stop();
+    this.isShooting = false;
+    this.timer.reset();
   }
 
   // Returns true when the command should end.
