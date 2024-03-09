@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Shooter;
@@ -12,6 +13,8 @@ public class ShootNote extends Command {
   private Shooter shooter;
   private Collector collector;
   private int velocity;
+  private boolean isShooting;
+  private Timer timer;
 
   /** Creates a new ShootNote. */
   public ShootNote(Shooter shooter, Collector collector, int velocity) {
@@ -20,6 +23,8 @@ public class ShootNote extends Command {
     this.shooter = shooter;
     this.collector = collector;
     this.velocity = velocity;
+    this.isShooting = false;
+    this.timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
@@ -35,6 +40,8 @@ public class ShootNote extends Command {
     // reach the setpoint
     if (shooter.getAverageVelocity() < (velocity + 200)) {
       this.collector.in();
+      this.isShooting = true;
+      this.timer.start();
     }
   }
 
@@ -48,6 +55,6 @@ public class ShootNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isShooting && timer.hasElapsed(1);
   }
 }
