@@ -30,7 +30,7 @@ public class Axel extends SubsystemBase {
   private double lastKnownP = 0;
   private double lastKnownI = 0;
   private double lastKnownD = 0;
-
+  private double target = 0;
   // TODO
   private double topEncoderLimit = 0.36;
   private double bottomEncoderLimit = 0.20;
@@ -85,16 +85,23 @@ public class Axel extends SubsystemBase {
     rightMotor.stopMotor();
   }
 
-  private boolean setReference(double newPosition) {
+  public boolean setReference(double newPosition) {
     if (atTopLimit(newPosition)
         || atBottomLimit(newPosition)) {
       // do nothing if new position would be over the limit
       return false;
     }
 
+    target = newPosition;
+
+
     // otherwise go to new position
     pidController.setReference(newPosition, ControlType.kPosition);
     return true;
+  }
+
+  public boolean isAtTarget() {
+    return MathUtils.compareDouble(absoluteEncoder.getPosition(), target);
   }
 
   private boolean atTopLimit(double position) {
