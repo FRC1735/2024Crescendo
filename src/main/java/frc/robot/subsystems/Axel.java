@@ -52,9 +52,9 @@ public class Axel extends SubsystemBase {
     pidController.setFeedbackDevice(absoluteEncoder);
 
     // Pre-spring PID values, worked pretty well
-    pidController.setP(2);
-    pidController.setI(0.0004);
-    pidController.setD(0.005);
+    pidController.setP(1.399999976158142);
+    pidController.setI(0.00010000001202570274);
+    pidController.setD(0);
     pidController.setFF(0);
 
     if (DEBUG) {
