@@ -43,6 +43,7 @@ public class RobotContainer {
       Constants.ShooterConstants.AMP_VELOCITY);
   private final RotateAxel rotateAxelToCollect = new RotateAxel(axel, 0.2);
   private final RotateAxel rotateAxelForSpeaker = new RotateAxel(axel, 0.255);
+  private final RotateAxel rotateAxelTest = new RotateAxel(axel, 0.3);
 
   // Controllers
   XboxController driverController = new XboxController(0);
@@ -122,6 +123,9 @@ public class RobotContainer {
     new POVButton(driverController, 0).whileTrue(new InstantCommand(axel::down,
         axel))
         .onFalse(new InstantCommand(axel::stop, axel));
+
+    new POVButton(driverController, 90).whileTrue(rotateAxelToCollect);
+    new POVButton(driverController, 270).whileTrue(rotateAxelTest);
 
     // Climber control
     /*
