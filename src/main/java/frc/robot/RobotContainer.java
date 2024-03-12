@@ -6,6 +6,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -24,6 +25,7 @@ import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -48,6 +50,9 @@ public class RobotContainer {
   // Controllers
   XboxController driverController = new XboxController(0);
 
+  // Choosers
+  private final SendableChooser<Command> autoChooser;
+
   public RobotContainer() {
     configureBindings();
 
@@ -58,6 +63,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("AxelAimSpeaker", rotateAxelForSpeaker);
     NamedCommands.registerCommand("ResetGyro", new InstantCommand(drive::zeroGyro, drive));
     NamedCommands.registerCommand("RotateAxelToCollect", rotateAxelToCollect);
+
+    // Generate autoChooser for all PathPlanner commands
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
 
     // TODO - hook up to button state if we want this?
     boolean snapToRightAngleEnabled = false;
@@ -140,8 +149,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    // return Commands.print("No autonomous command configured");
-    return new PathPlannerAuto("Left To Right");
+    return autoChooser.getSelected();
   }
 
   public void stopAllSubsystems() {
