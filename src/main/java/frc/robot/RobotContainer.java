@@ -45,7 +45,11 @@ public class RobotContainer {
       Constants.ShooterConstants.AMP_VELOCITY);
   private final RotateAxel rotateAxelToCollect = new RotateAxel(axel, 0.2);
   private final RotateAxel rotateAxelForSpeaker = new RotateAxel(axel, 0.255);
+  private final RotateAxel rotateAxelForSpeakerTwo = new RotateAxel(axel, 0.29);
   private final RotateAxel rotateAxelTest = new RotateAxel(axel, 0.3);
+  private final RotateAxel rotateAxelLeftSideShoot = new RotateAxel(axel, 0.25);
+  // private final Command gyroOffset = new InstantCommand(drive::gyroOffset,
+  // drive);
 
   // Controllers
   XboxController driverController = new XboxController(0);
@@ -63,6 +67,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("AxelAimSpeaker", rotateAxelForSpeaker);
     NamedCommands.registerCommand("ResetGyro", new InstantCommand(drive::zeroGyro, drive));
     NamedCommands.registerCommand("RotateAxelToCollect", rotateAxelToCollect);
+    NamedCommands.registerCommand("LeftSideSpeekerShootAnge", pickUpNoteCommand);
+    NamedCommands.registerCommand("rotateAxelLeftSideShoot", rotateAxelLeftSideShoot);
+    NamedCommands.registerCommand("rotateAxelForSpeakerTwo", rotateAxelForSpeakerTwo);
+    // NamedCommands.registerCommand("gyroOffset", gyroOffset);
 
     // Generate autoChooser for all PathPlanner commands
     autoChooser = AutoBuilder.buildAutoChooser();
@@ -94,6 +102,7 @@ public class RobotContainer {
         });
 
     drive.setDefaultCommand(driveFieldOrientedDirectAngle);
+
   }
 
   private double snapToRightAngle(double i) {
@@ -149,7 +158,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    drive.zeroGyro();
+    return new PathPlannerAuto("Middle Note");
   }
 
   public void stopAllSubsystems() {

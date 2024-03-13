@@ -9,6 +9,7 @@ import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
@@ -20,7 +21,7 @@ import frc.robot.RobotContainer;
 import frc.utils.MathUtils;
 
 public class Axel extends SubsystemBase {
-  private final boolean DEBUG = false;
+  private final boolean DEBUG = true;
 
   private final CANSparkMax leftMotor = new CANSparkMax(Constants.AxelConstants.leftMotor, MotorType.kBrushless);
   private final CANSparkMax rightMotor = new CANSparkMax(Constants.AxelConstants.rightMotor, MotorType.kBrushless);
@@ -39,6 +40,9 @@ public class Axel extends SubsystemBase {
   public Axel() {
     // rightMotor has absolute encoder attached to it
 
+    rightMotor.setSoftLimit(SoftLimitDirection.kReverse, (float) bottomEncoderLimit);
+    rightMotor.setSoftLimit(SoftLimitDirection.kForward, (float) topEncoderLimit);
+
     leftMotor.follow(rightMotor, true);
     absoluteEncoder = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);
     // TODO - set zero offset and inverted in Rev Hardware Client? This seems better
@@ -52,9 +56,9 @@ public class Axel extends SubsystemBase {
     pidController.setFeedbackDevice(absoluteEncoder);
 
     // Pre-spring PID values, worked pretty well
-    pidController.setP(1.399999976158142);
-    pidController.setI(0.00010000001202570274);
-    pidController.setD(0);
+    pidController.setP(2);
+    pidController.setI(0.0004);
+    pidController.setD(0.005);
     pidController.setFF(0);
 
     if (DEBUG) {
@@ -104,11 +108,13 @@ public class Axel extends SubsystemBase {
   }
 
   private boolean atTopLimit(double position) {
-    return position > topEncoderLimit;
+    // return position > topEncoderLimit;
+    return false;
   }
 
   private boolean atBottomLimit(double position) {
-    return position < bottomEncoderLimit;
+    // return position < bottomEncoderLimit;
+    return false;
   }
 
   @Override
