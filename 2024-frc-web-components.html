@@ -3,6 +3,7 @@
     slot="tab"
     source-provider="NetworkTables"
     source-key="/SmartDashboard/Distance Sensor"
+    selected=""
 ><frc-label
         text="~~~~~ DRIVE ~~~~~"
         source-provider="NetworkTables"
@@ -29,7 +30,6 @@
         source-key="/SmartDashboard/Drive - P"
         min="NaN"
         max="NaN"
-        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -64,7 +64,6 @@
         source-key="/SmartDashboard/Distance Sensor"
         min="NaN"
         max="NaN"
-        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -95,7 +94,6 @@
         source-key="/SmartDashboard/Drive - I"
         min="NaN"
         max="NaN"
-        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -126,7 +124,6 @@
         source-key="/SmartDashboard/Drive - D"
         min="NaN"
         max="NaN"
-        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -175,6 +172,7 @@
         source-key="/SmartDashboard/Axel Encoder"
         min="NaN"
         max="NaN"
+        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -209,6 +207,7 @@
         style="transform: translate(144px, 547.5px);"
         min="NaN"
         max="NaN"
+        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -229,7 +228,16 @@
             id="error-message-vaadin-number-field-319"
             hidden=""
         ></div>
-    </vaadin-number-field></dashboard-tab><dashboard-tab
+    </vaadin-number-field><frc-label
+        text="~~~~~ COLLECTOR ~~~~~"
+        source-provider="NetworkTables"
+        style="transform: translate(331px, 533px);"
+    ></frc-label><frc-boolean-box
+        source-provider="NetworkTables"
+        style="transform: translate(390.5px, 558px);"
+        source-key=" /SmartDashboard/Ready to Shoot"
+        label="Ready to Shoot"
+    ></frc-boolean-box></dashboard-tab><dashboard-tab
     slot="tab"
     tab-name="Autonomous"
     source-provider="NetworkTables"
@@ -237,7 +245,6 @@
     tab-name="DEBUG"
     slot="tab"
     source-provider="NetworkTables"
-    selected=""
 ><frc-label
         text="~~~~~ AXEL ~~~~~"
         source-provider="NetworkTables"
@@ -251,7 +258,6 @@
         source-key="/SmartDashboard/Axel - P"
         min="NaN"
         max="NaN"
-        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -282,7 +288,6 @@
         style="transform: translate(0px, 72px);"
         min="NaN"
         max="NaN"
-        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -313,7 +318,6 @@
         style="transform: translate(0px, 144px);"
         min="NaN"
         max="NaN"
-        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -348,6 +352,7 @@
         source-key="/SmartDashboard/topVelocity"
         min="NaN"
         max="NaN"
+        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -378,6 +383,7 @@
         style="transform: translate(183.5px, 111px);"
         min="NaN"
         max="NaN"
+        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -406,23 +412,22 @@
         source-provider="NetworkTables"
         source-key="/SmartDashboard/Axel Encoder"
         style="width: 217.5px; height: 293px; transform: translate(42.5px, 294px);"
-        placeholder=""
         min="NaN"
         max="NaN"
     ><input
             slot="input"
             value="0"
             type="number"
-            id="vaadin-number-field-29"
+            id="vaadin-number-field-13"
             aria-labelledby="label-vaadin-number-field-29"
             aria-describedby=""
-            min="undefined"
-            max="undefined"
+            min="NaN"
+            max="NaN"
             step="any"
         ><label
             slot="label"
             id="label-vaadin-number-field-29"
-            for="vaadin-number-field-29"
+            for="vaadin-number-field-13"
         >Axel Encoder</label>
         <div
             slot="error-message"

@@ -56,5 +56,6 @@ public class Collector extends SubsystemBase {
     if (DEBUG) {
       SmartDashboard.putNumber("Distance Sensor", distanceSensor.getDistance());
     }
+    SmartDashboard.putBoolean("Ready to Shoot", noteReadyToShoot());
   }
 }

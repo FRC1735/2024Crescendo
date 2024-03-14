@@ -135,18 +135,18 @@ public class RobotContainer {
     // x (3) -> aim at speaker from black line, shoot note (100% speed)
     new JoystickButton(driverController, 3)
         .whileTrue(
-          new SequentialCommandGroup(        
-            rotateAxelForSpeakerShotMidzone,
-            new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
+            new SequentialCommandGroup(
+                rotateAxelForSpeakerShotMidzone,
+                new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
 
     // a (1) -> position directly in front of speaker, shoot note (100% speed)
     new JoystickButton(driverController, 3)
         .whileTrue(
-          new SequentialCommandGroup(        
-            rotateAxelForSpeakerShotUpAgainstSpeaker,
-            new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
+            new SequentialCommandGroup(
+                rotateAxelForSpeakerShotUpAgainstSpeaker,
+                new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
 
-    // y (4) -> shoot  full speed
+    // y (4) -> shoot full speed
     new JoystickButton(driverController, 3)
         .whileTrue(new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY));
   }
@@ -164,30 +164,28 @@ public class RobotContainer {
 
     // y (4) -> Climber out
     new JoystickButton(driverController, 4).whileTrue(new InstantCommand(climber::out,
-      climber))
-      .onFalse(new InstantCommand(climber::stop, climber));
-    
+        climber))
+        .onFalse(new InstantCommand(climber::stop, climber));
+
     // a (1) -> Climber in
     new JoystickButton(driverController, 1).onTrue(new InstantCommand(climber::in,
-      climber))
-      .onFalse(new InstantCommand(climber::stop, climber));
+        climber))
+        .onFalse(new InstantCommand(climber::stop, climber));
 
     // b (2) -> Reverse Collector
     new JoystickButton(driverController, 2).onTrue(new InstantCommand(collector::out,
-      collector))
-      .onFalse(new InstantCommand(collector::stop, collector));
-     
+        collector))
+        .onFalse(new InstantCommand(collector::stop, collector));
+
     // x (3) -> Reverse Shooter and Collector
     new JoystickButton(driverController, 2).onTrue(
-      new ParallelCommandGroup(
-        new InstantCommand(collector::out, collector),
-        new InstantCommand(shooter::reverse, shooter)
-      ))
-      .onFalse(
         new ParallelCommandGroup(
-         new InstantCommand(collector::stop, collector),
-         new InstantCommand(shooter::stop, shooter)
-      ));
+            new InstantCommand(collector::out, collector),
+            new InstantCommand(shooter::reverse, shooter)))
+        .onFalse(
+            new ParallelCommandGroup(
+                new InstantCommand(collector::stop, collector),
+                new InstantCommand(shooter::stop, shooter)));
   }
 
   public Command getAutonomousCommand() {
