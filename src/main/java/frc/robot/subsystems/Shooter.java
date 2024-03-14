@@ -54,6 +54,10 @@ public class Shooter extends SubsystemBase {
     pidController.setReference(velocity, ControlType.kVelocity);
   }
 
+  public void reverse() {
+    bottomMotor.set(1);
+  }
+
   public void stop() {
     bottomMotor.stopMotor();
   };

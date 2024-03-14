@@ -11,11 +11,11 @@ public class RotateAxel extends Command {
   /** Creates a new RotateAxel. */
   private Axel axel;
   private double targetangle;
-  public RotateAxel(Axel axel, double targetangle) {
+  public RotateAxel(Axel axel, double encoderTarget) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(axel);
     this.axel = axel;
-    this.targetangle = targetangle;
+    this.targetangle = encoderTarget;
   }
 
   // Called when the command is initially scheduled.

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -44,8 +45,8 @@ public class RobotContainer {
   private final ShootNote shootAmpSpeedCommand = new ShootNote(shooter, collector,
       Constants.ShooterConstants.AMP_VELOCITY);
   private final RotateAxel rotateAxelToCollect = new RotateAxel(axel, 0.2);
-  private final RotateAxel rotateAxelForSpeaker = new RotateAxel(axel, 0.255);
-  private final RotateAxel rotateAxelForSpeakerTwo = new RotateAxel(axel, 0.29);
+  private final RotateAxel rotateAxelForSpeakerShotUpAgainstSpeaker = new RotateAxel(axel, 0.255);
+  private final RotateAxel rotateAxelForSpeakerShotMidzone = new RotateAxel(axel, 0.31);
   private final RotateAxel rotateAxelTest = new RotateAxel(axel, 0.3);
   private final RotateAxel rotateAxelLeftSideShoot = new RotateAxel(axel, 0.25);
   // private final Command gyroOffset = new InstantCommand(drive::gyroOffset,
@@ -64,12 +65,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("PickUpNote", pickUpNoteCommand);
     NamedCommands.registerCommand("ShootNote", shootFullSpeedCommand);
     NamedCommands.registerCommand("ShootAmpNote", shootAmpSpeedCommand);
-    NamedCommands.registerCommand("AxelAimSpeaker", rotateAxelForSpeaker);
+    NamedCommands.registerCommand("AxelAimSpeaker", rotateAxelForSpeakerShotUpAgainstSpeaker);
     NamedCommands.registerCommand("ResetGyro", new InstantCommand(drive::zeroGyro, drive));
     NamedCommands.registerCommand("RotateAxelToCollect", rotateAxelToCollect);
     NamedCommands.registerCommand("LeftSideSpeekerShootAnge", pickUpNoteCommand);
     NamedCommands.registerCommand("rotateAxelLeftSideShoot", rotateAxelLeftSideShoot);
-    NamedCommands.registerCommand("rotateAxelForSpeakerTwo", rotateAxelForSpeakerTwo);
+    NamedCommands.registerCommand("rotateAxelForSpeakerShotMidzone", rotateAxelForSpeakerShotMidzone);
     // NamedCommands.registerCommand("gyroOffset", gyroOffset);
 
     // Generate autoChooser for all PathPlanner commands
@@ -121,6 +122,7 @@ public class RobotContainer {
 
   private void configureBindings() {
     configureDriverController();
+    configureOperatorController();
   }
 
   private void configureDriverController() {
@@ -130,31 +132,62 @@ public class RobotContainer {
     // b (2) -> collect note with sensor enabeled
     new JoystickButton(driverController, 2).whileTrue(new PickUpNote(collector));
 
-    // x (3) -> shoot note
+    // x (3) -> aim at speaker from black line, shoot note (100% speed)
+    new JoystickButton(driverController, 3)
+        .whileTrue(
+          new SequentialCommandGroup(        
+            rotateAxelForSpeakerShotMidzone,
+            new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
+
+    // a (1) -> position directly in front of speaker, shoot note (100% speed)
+    new JoystickButton(driverController, 3)
+        .whileTrue(
+          new SequentialCommandGroup(        
+            rotateAxelForSpeakerShotUpAgainstSpeaker,
+            new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
+
+    // y (4) -> shoot  full speed
     new JoystickButton(driverController, 3)
         .whileTrue(new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY));
+  }
 
+  private void configureOperatorController() {
+    // up button -> make axel go up
     new POVButton(driverController, 180).whileTrue(new InstantCommand(axel::up,
         axel))
         .onFalse(new InstantCommand(axel::stop, axel));
 
+    // down button -> make axel go down
     new POVButton(driverController, 0).whileTrue(new InstantCommand(axel::down,
         axel))
         .onFalse(new InstantCommand(axel::stop, axel));
 
-    new POVButton(driverController, 90).whileTrue(rotateAxelToCollect);
-    new POVButton(driverController, 270).whileTrue(rotateAxelTest);
+    // y (4) -> Climber out
+    new JoystickButton(driverController, 4).whileTrue(new InstantCommand(climber::out,
+      climber))
+      .onFalse(new InstantCommand(climber::stop, climber));
+    
+    // a (1) -> Climber in
+    new JoystickButton(driverController, 1).onTrue(new InstantCommand(climber::in,
+      climber))
+      .onFalse(new InstantCommand(climber::stop, climber));
 
-    // Climber control
-    /*
-     * new POVButton(driverController, 0).onTrue(new InstantCommand(climber::in,
-     * climber))
-     * .onFalse(new InstantCommand(climber::stop, climber));
-     * 
-     * new POVButton(driverController, 180).onTrue(new InstantCommand(climber::out,
-     * climber))
-     * .onFalse(new InstantCommand(climber::stop, climber));
-     */
+    // b (2) -> Reverse Collector
+    new JoystickButton(driverController, 2).onTrue(new InstantCommand(collector::out,
+      collector))
+      .onFalse(new InstantCommand(collector::stop, collector));
+     
+    // x (3) -> Reverse Shooter and Collector
+    new JoystickButton(driverController, 2).onTrue(
+      new ParallelCommandGroup(
+        new InstantCommand(collector::out, collector),
+        new InstantCommand(shooter::reverse, shooter)
+      ))
+      .onFalse(
+        new ParallelCommandGroup(
+         new InstantCommand(collector::stop, collector),
+         new InstantCommand(shooter::stop, shooter)
+      ));
   }
 
   public Command getAutonomousCommand() {
