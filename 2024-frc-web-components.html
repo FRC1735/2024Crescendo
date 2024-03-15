@@ -16,11 +16,7 @@
         desiredstates="[0,0,0,0,0,0,0,0]"
         sizeleftright="4"
         sizefrontback="5"
-    ></frc-swerve-drivebase><frc-sendable-chooser
-        source-provider="NetworkTables"
-        style="transform: translate(560.5px, 186px);"
-        options="[]"
-    ></frc-sendable-chooser><vaadin-number-field
+    ></frc-swerve-drivebase><vaadin-number-field
         label="P"
         value="0"
         has-label=""
@@ -30,6 +26,7 @@
         source-key="/SmartDashboard/Drive - P"
         min="NaN"
         max="NaN"
+        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -64,6 +61,7 @@
         source-key="/SmartDashboard/Distance Sensor"
         min="NaN"
         max="NaN"
+        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -94,6 +92,7 @@
         source-key="/SmartDashboard/Drive - I"
         min="NaN"
         max="NaN"
+        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -124,6 +123,7 @@
         source-key="/SmartDashboard/Drive - D"
         min="NaN"
         max="NaN"
+        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -172,7 +172,6 @@
         source-key="/SmartDashboard/Axel Encoder"
         min="NaN"
         max="NaN"
-        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -207,7 +206,6 @@
         style="transform: translate(144px, 547.5px);"
         min="NaN"
         max="NaN"
-        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -235,9 +233,22 @@
     ></frc-label><frc-boolean-box
         source-provider="NetworkTables"
         style="transform: translate(390.5px, 558px);"
-        source-key=" /SmartDashboard/Ready to Shoot"
+        source-key="/SmartDashboard/Ready to Shoot"
         label="Ready to Shoot"
-    ></frc-boolean-box></dashboard-tab><dashboard-tab
+    ></frc-boolean-box><frc-camera-wrapper
+        source-provider="NetworkTables"
+        style="transform: translate(559px, 255px); width: 590px; height: 517.5px;"
+        source-key="/SmartDashboard/limelight_Stream"
+        streams="[]"
+        background-color="black"
+        wait-image="./no-camera-stream.jpg"
+        crosshair-color="white"
+    ></frc-camera-wrapper><frc-sendable-chooser-wrapper
+        source-key="/SmartDashboard/Auto Chooser"
+        source-provider="NetworkTables"
+        style="transform: translate(601px, 136px); width: 220px; height: 70px;"
+        options="[]"
+    ></frc-sendable-chooser-wrapper></dashboard-tab><dashboard-tab
     slot="tab"
     tab-name="Autonomous"
     source-provider="NetworkTables"
@@ -258,6 +269,7 @@
         source-key="/SmartDashboard/Axel - P"
         min="NaN"
         max="NaN"
+        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -288,6 +300,7 @@
         style="transform: translate(0px, 72px);"
         min="NaN"
         max="NaN"
+        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -318,6 +331,7 @@
         style="transform: translate(0px, 144px);"
         min="NaN"
         max="NaN"
+        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -352,7 +366,6 @@
         source-key="/SmartDashboard/topVelocity"
         min="NaN"
         max="NaN"
-        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -383,7 +396,6 @@
         style="transform: translate(183.5px, 111px);"
         min="NaN"
         max="NaN"
-        placeholder=""
     ><input
             slot="input"
             value="0"
@@ -414,6 +426,7 @@
         style="width: 217.5px; height: 293px; transform: translate(42.5px, 294px);"
         min="NaN"
         max="NaN"
+        placeholder=""
     ><input
             slot="input"
             value="0"

@@ -18,7 +18,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class Shooter extends SubsystemBase {
-  private final boolean DEBUG = true;
+  private final boolean DEBUG = false;
 
   private final CANSparkFlex topMotor;
   private final CANSparkFlex bottomMotor;

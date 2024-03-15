@@ -49,11 +49,13 @@ public class RobotContainer {
   private final RotateAxel rotateAxelForSpeakerShotMidzone = new RotateAxel(axel, 0.31);
   private final RotateAxel rotateAxelTest = new RotateAxel(axel, 0.3);
   private final RotateAxel rotateAxelLeftSideShoot = new RotateAxel(axel, 0.25);
+  private final RotateAxel rotateAxelForAmp = new RotateAxel(axel, 0.26);
   // private final Command gyroOffset = new InstantCommand(drive::gyroOffset,
   // drive);
 
   // Controllers
   XboxController driverController = new XboxController(0);
+  XboxController operaController = new XboxController(1);
 
   // Choosers
   private final SendableChooser<Command> autoChooser;
@@ -129,6 +131,15 @@ public class RobotContainer {
     // right bumper (6) -> right bumper on Xbox Controller
     new JoystickButton(driverController, 6).onTrue((new InstantCommand(drive::zeroGyro)));
 
+    // left bumper (5) -> shoot at 20% speed
+    new JoystickButton(driverController, 5)
+      .whileTrue(
+        new SequentialCommandGroup(
+          rotateAxelForAmp,
+          new ShootNote(shooter, collector, ShooterConstants.AMP_VELOCITY)
+        )
+      );
+
     // b (2) -> collect note with sensor enabeled
     new JoystickButton(driverController, 2).whileTrue(new PickUpNote(collector));
 
@@ -140,45 +151,45 @@ public class RobotContainer {
                 new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
 
     // a (1) -> position directly in front of speaker, shoot note (100% speed)
-    new JoystickButton(driverController, 3)
+    new JoystickButton(driverController, 1)
         .whileTrue(
             new SequentialCommandGroup(
                 rotateAxelForSpeakerShotUpAgainstSpeaker,
                 new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
 
     // y (4) -> shoot full speed
-    new JoystickButton(driverController, 3)
+    new JoystickButton(driverController, 4)
         .whileTrue(new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY));
   }
 
   private void configureOperatorController() {
     // up button -> make axel go up
-    new POVButton(driverController, 180).whileTrue(new InstantCommand(axel::up,
+    new POVButton(operaController, 180).whileTrue(new InstantCommand(axel::up,
         axel))
         .onFalse(new InstantCommand(axel::stop, axel));
 
     // down button -> make axel go down
-    new POVButton(driverController, 0).whileTrue(new InstantCommand(axel::down,
+    new POVButton(operaController,  0).whileTrue(new InstantCommand(axel::down,
         axel))
         .onFalse(new InstantCommand(axel::stop, axel));
 
     // y (4) -> Climber out
-    new JoystickButton(driverController, 4).whileTrue(new InstantCommand(climber::out,
+    new JoystickButton(operaController, 4).whileTrue(new InstantCommand(climber::out,
         climber))
         .onFalse(new InstantCommand(climber::stop, climber));
 
     // a (1) -> Climber in
-    new JoystickButton(driverController, 1).onTrue(new InstantCommand(climber::in,
+    new JoystickButton(operaController, 1).onTrue(new InstantCommand(climber::in,
         climber))
         .onFalse(new InstantCommand(climber::stop, climber));
 
     // b (2) -> Reverse Collector
-    new JoystickButton(driverController, 2).onTrue(new InstantCommand(collector::out,
+    new JoystickButton(operaController, 2).onTrue(new InstantCommand(collector::out,
         collector))
         .onFalse(new InstantCommand(collector::stop, collector));
 
     // x (3) -> Reverse Shooter and Collector
-    new JoystickButton(driverController, 2).onTrue(
+    new JoystickButton(operaController, 3).onTrue(
         new ParallelCommandGroup(
             new InstantCommand(collector::out, collector),
             new InstantCommand(shooter::reverse, shooter)))
@@ -189,8 +200,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    drive.zeroGyro();
-    return new PathPlannerAuto("Middle Note");
+    return autoChooser.getSelected();
   }
 
   public void stopAllSubsystems() {

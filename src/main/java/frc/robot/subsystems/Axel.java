@@ -21,7 +21,7 @@ import frc.robot.RobotContainer;
 import frc.utils.MathUtils;
 
 public class Axel extends SubsystemBase {
-  private final boolean DEBUG = true;
+  private final boolean DEBUG = false;
 
   private final CANSparkMax leftMotor = new CANSparkMax(Constants.AxelConstants.leftMotor, MotorType.kBrushless);
   private final CANSparkMax rightMotor = new CANSparkMax(Constants.AxelConstants.rightMotor, MotorType.kBrushless);

@@ -23,12 +23,12 @@ public class Climber extends SubsystemBase {
 
   public void in() {
     // TODO - direction may be wrong
-    motor.set(speed);
+    motor.set(-speed);
   }
 
   public void out() {
     // TODO - direction may be wrong
-    motor.set(-speed);
+    motor.set(speed);
   }
 
   public void stop() {

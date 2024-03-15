@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 1.4,
-      "y": 4.06
+      "y": 5.5
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -18,15 +18,9 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "New Path"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "rotateAxelForSpeakerShotMidzone"
+            "name": "AxelAimSpeaker"
           }
         },
         {
@@ -36,9 +30,9 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Middle Reverse over line"
+            "name": "RotateAxelToCollect"
           }
         }
       ]
