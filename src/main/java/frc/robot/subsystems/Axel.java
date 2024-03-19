@@ -33,8 +33,8 @@ public class Axel extends SubsystemBase {
   private double lastKnownD = 0;
   private double target = 0;
   // TODO
-  private double topEncoderLimit = 0.36;
-  private double bottomEncoderLimit = 0.20;
+  private double topEncoderLimit = 0.35;
+  private double bottomEncoderLimit = 0.19;
 
   /** Creates a new Axel. */
   public Axel() {
@@ -78,16 +78,17 @@ public class Axel extends SubsystemBase {
   }
 
   public void up() {
-    setReference(bottomEncoderLimit + 0.01);
+    setReference(bottomEncoderLimit);
   }
 
   public void down() {
-    setReference(topEncoderLimit - 0.01);
+    setReference(topEncoderLimit);
   }
 
   public void stop() {
     rightMotor.stopMotor();
   }
+
 
   public boolean setReference(double newPosition) {
     if (atTopLimit(newPosition)
@@ -144,7 +145,5 @@ public class Axel extends SubsystemBase {
     }
 
     SmartDashboard.putNumber("Axel Encoder", currentPosition);
-    SmartDashboard.putBoolean("Axel - Bottom Limit?", atBottomLimit(currentPosition));
-    SmartDashboard.putBoolean("Axel - Top Limit?", atTopLimit(currentPosition));
   }
 }

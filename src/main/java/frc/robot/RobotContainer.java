@@ -20,6 +20,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.RotateAxel;
 import frc.robot.commands.ShootNote;
+import frc.robot.commands.StartShooter;
 import frc.robot.subsystems.Axel;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
@@ -104,7 +105,19 @@ public class RobotContainer {
           }
         });
 
-    drive.setDefaultCommand(driveFieldOrientedDirectAngle);
+    
+    Command altDriveCommand = drive.driveCommand(
+        () -> -MathUtil.applyDeadband(driverController.getLeftY(),
+            OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -MathUtil.applyDeadband(driverController.getLeftX(),
+            OperatorConstants.LEFT_X_DEADBAND),
+        () -> {
+          return -driverController.getRightX();
+        });
+
+    //drive.setDefaultCommand(driveFieldOrientedDirectAngle);
+drive.setDefaultCommand(altDriveCommand);
+    drive.zeroGyro();
 
   }
 
@@ -144,18 +157,48 @@ public class RobotContainer {
     new JoystickButton(driverController, 2).whileTrue(new PickUpNote(collector));
 
     // x (3) -> aim at speaker from black line, shoot note (100% speed)
+    /*
     new JoystickButton(driverController, 3)
         .whileTrue(
             new SequentialCommandGroup(
                 rotateAxelForSpeakerShotMidzone,
                 new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
+*/
+    new JoystickButton(driverController, 3)
+      .whileTrue(
+        new SequentialCommandGroup(
+          new ParallelCommandGroup(
+            rotateAxelForSpeakerShotMidzone,
+            new StartShooter(shooter, ShooterConstants.FULL_VELOCITY)
+          ),
+          new InstantCommand(collector::in, collector)
+        )
+      ).onFalse(new ParallelCommandGroup(
+        new InstantCommand(shooter::stop, shooter),
+        new InstantCommand(collector::stop, collector)
+      ));            
 
     // a (1) -> position directly in front of speaker, shoot note (100% speed)
+    /*
     new JoystickButton(driverController, 1)
         .whileTrue(
             new SequentialCommandGroup(
                 rotateAxelForSpeakerShotUpAgainstSpeaker,
                 new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
+    */
+    new JoystickButton(driverController, 1)
+      .whileTrue(
+        new SequentialCommandGroup(
+          new ParallelCommandGroup(
+            rotateAxelForSpeakerShotUpAgainstSpeaker,
+            new StartShooter(shooter, ShooterConstants.FULL_VELOCITY)
+          ),
+          new InstantCommand(collector::in, collector)
+        )
+      ).onFalse(new ParallelCommandGroup(
+        new InstantCommand(shooter::stop, shooter),
+        new InstantCommand(collector::stop, collector)
+      ));
 
     // y (4) -> shoot full speed
     new JoystickButton(driverController, 4)
