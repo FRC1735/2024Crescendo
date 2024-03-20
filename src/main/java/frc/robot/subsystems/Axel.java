@@ -56,7 +56,7 @@ public class Axel extends SubsystemBase {
     pidController.setFeedbackDevice(absoluteEncoder);
 
     // Pre-spring PID values, worked pretty well
-    pidController.setP(2);
+    pidController.setP(4);
     pidController.setI(0.0004);
     pidController.setD(0.005);
     pidController.setFF(0);
@@ -91,12 +91,6 @@ public class Axel extends SubsystemBase {
 
 
   public boolean setReference(double newPosition) {
-    if (atTopLimit(newPosition)
-        || atBottomLimit(newPosition)) {
-      // do nothing if new position would be over the limit
-      return false;
-    }
-
     target = newPosition;
 
     // otherwise go to new position

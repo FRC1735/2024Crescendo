@@ -40,6 +40,6 @@ public class StartShooter extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return shooter.getAverageVelocity() > velocity;
+    return shooter.getAverageVelocity() < velocity;
   }
 }

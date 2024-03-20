@@ -51,6 +51,7 @@ public class RobotContainer {
   private final RotateAxel rotateAxelTest = new RotateAxel(axel, 0.3);
   private final RotateAxel rotateAxelLeftSideShoot = new RotateAxel(axel, 0.25);
   private final RotateAxel rotateAxelForAmp = new RotateAxel(axel, 0.26);
+  private final StartShooter startShooter = new StartShooter(shooter, Constants.ShooterConstants.FULL_VELOCITY);
   // private final Command gyroOffset = new InstantCommand(drive::gyroOffset,
   // drive);
 
@@ -74,6 +75,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("LeftSideSpeekerShootAnge", pickUpNoteCommand);
     NamedCommands.registerCommand("rotateAxelLeftSideShoot", rotateAxelLeftSideShoot);
     NamedCommands.registerCommand("rotateAxelForSpeakerShotMidzone", rotateAxelForSpeakerShotMidzone);
+    NamedCommands.registerCommand("startShooter", startShooter);
     // NamedCommands.registerCommand("gyroOffset", gyroOffset);
 
     // Generate autoChooser for all PathPlanner commands
@@ -178,6 +180,10 @@ drive.setDefaultCommand(altDriveCommand);
         new InstantCommand(collector::stop, collector)
       ));            
 
+    
+
+
+
     // a (1) -> position directly in front of speaker, shoot note (100% speed)
     /*
     new JoystickButton(driverController, 1)
@@ -206,6 +212,10 @@ drive.setDefaultCommand(altDriveCommand);
   }
 
   private void configureOperatorController() {
+    new JoystickButton(operaController, 6)
+    .onTrue(new InstantCommand(collector::in, collector))
+    .onFalse(new InstantCommand(collector::stop, collector));
+
     // up button -> make axel go up
     new POVButton(operaController, 180).whileTrue(new InstantCommand(axel::up,
         axel))
@@ -215,6 +225,8 @@ drive.setDefaultCommand(altDriveCommand);
     new POVButton(operaController,  0).whileTrue(new InstantCommand(axel::down,
         axel))
         .onFalse(new InstantCommand(axel::stop, axel));
+
+    // 
 
     // y (4) -> Climber out
     new JoystickButton(operaController, 4).whileTrue(new InstantCommand(climber::out,
