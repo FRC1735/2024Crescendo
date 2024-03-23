@@ -24,6 +24,7 @@ import frc.robot.commands.StartShooter;
 import frc.robot.subsystems.Axel;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
+import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -38,6 +39,8 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter();
   private final Axel axel = new Axel();
   private final Climber climber = new Climber();
+  private final Lighting lighting = new Lighting();
+
 
   // Commands
   private final PickUpNote pickUpNoteCommand = new PickUpNote(collector);
@@ -118,9 +121,10 @@ public class RobotContainer {
         });
 
     //drive.setDefaultCommand(driveFieldOrientedDirectAngle);
-drive.setDefaultCommand(altDriveCommand);
+    drive.setDefaultCommand(altDriveCommand);
     drive.zeroGyro();
 
+    lighting.on();
   }
 
   private double snapToRightAngle(double i) {
