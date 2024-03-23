@@ -43,7 +43,7 @@ public class Collector extends SubsystemBase {
   }
 
   public boolean noteReadyToShoot() {
-    if (distanceSensor.getDistance() < 10) {
+    if (distanceSensor.getDistance() < 20) {
       return true;
     } else {
       return false;

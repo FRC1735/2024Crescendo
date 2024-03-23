@@ -24,12 +24,12 @@ public class StartShooter extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    this.shooter.shoot(velocity);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+        this.shooter.shoot(velocity);
   }
 
   // Called once the command ends or is interrupted.
@@ -40,6 +40,6 @@ public class StartShooter extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return shooter.getAverageVelocity() < velocity;
+    return shooter.getAverageVelocity() > velocity;
   }
 }
