@@ -262,6 +262,14 @@ public class RobotContainer {
     return autoChooser.getSelected();
   }
 
+  public void updateLighting() {
+    if (collector.noteReadyToShoot()) {
+      lighting.setColor(255, 165, 0);
+    } else {
+      lighting.green();
+    }
+  }
+
   public void stopAllSubsystems() {
     collector.stop();
     shooter.stop();
