@@ -13,7 +13,7 @@ import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
   private final CANSparkFlex motor;
-  private final double speed = 0.1;
+  private final double speed = 1;
 
   /** Creates a new Climber. */
   public Climber() {

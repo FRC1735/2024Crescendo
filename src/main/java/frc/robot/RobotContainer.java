@@ -228,12 +228,12 @@ drive.setDefaultCommand(altDriveCommand);
 
     // 
 
-    // y (4) -> Climber out
+    // y (4) -> retracting climber
     new JoystickButton(operaController, 4).whileTrue(new InstantCommand(climber::out,
         climber))
         .onFalse(new InstantCommand(climber::stop, climber));
 
-    // a (1) -> Climber in
+    // a (1) -> extending climber
     new JoystickButton(operaController, 1).onTrue(new InstantCommand(climber::in,
         climber))
         .onFalse(new InstantCommand(climber::stop, climber));
