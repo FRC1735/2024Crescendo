@@ -116,9 +116,8 @@ public class RobotContainer {
             OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverController.getLeftX(),
             OperatorConstants.LEFT_X_DEADBAND),
-        () -> {
-          return -driverController.getRightX();
-        });
+        () -> -MathUtil.applyDeadband(driverController.getRightX(), OperatorConstants.RIGHT_X_DEADBAND)
+        );
 
     //drive.setDefaultCommand(driveFieldOrientedDirectAngle);
     drive.setDefaultCommand(altDriveCommand);
