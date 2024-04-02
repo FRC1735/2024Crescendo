@@ -31,7 +31,7 @@ public class SwerveSubsystem extends SubsystemBase {
     private final boolean DEBUG = false;
 
     private final SwerveDrive swerveDrive;
-    public double maximumSpeed = Units.feetToMeters(14.5);
+    public double maximumSpeed = Units.feetToMeters(18.84);
 
     public SwerveSubsystem(File directory) {
         try {
@@ -51,7 +51,7 @@ public class SwerveSubsystem extends SubsystemBase {
                                 swerveDrive.swerveController.config.headingPIDF.p,
                                 swerveDrive.swerveController.config.headingPIDF.i,
                                 swerveDrive.swerveController.config.headingPIDF.d),
-                        4.5,
+                        maximumSpeed,
                         swerveDrive.swerveDriveConfiguration.getDriveBaseRadiusMeters(),
                         new ReplanningConfig()),
                 this::shouldPathFlip,

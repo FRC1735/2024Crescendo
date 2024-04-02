@@ -19,7 +19,7 @@
   },
   "conversionFactor": {
     "angle": 360,
-    "drive": 0.04352533821882586
+    "drive": 0.05082576649756735
   },
   "encoder": {
     "type": "attached",
