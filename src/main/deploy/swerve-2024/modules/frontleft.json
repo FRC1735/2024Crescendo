@@ -26,6 +26,5 @@
     "id": 0,
     "canbus": null
   },
-  "absoluteEncoderOffset": 0.9424163699150085,
   "absoluteEncoderInverted": true
 }

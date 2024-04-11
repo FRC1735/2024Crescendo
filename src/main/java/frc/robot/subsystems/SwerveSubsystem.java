@@ -28,7 +28,7 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 // Notice all the telemetry, pathplanner, etc. We should do that once things are running at a basic level.
 
 public class SwerveSubsystem extends SubsystemBase {
-    private final boolean DEBUG = false;
+    private final boolean DEBUG = true;
 
     private final SwerveDrive swerveDrive;
     public double maximumSpeed = Units.feetToMeters(18.84);
