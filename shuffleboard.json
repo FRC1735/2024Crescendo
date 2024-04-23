@@ -391,6 +391,99 @@
               "_glyph": 148,
               "_showGlyph": false
             }
+          },
+          "9,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/drive motor 0",
+              "_title": "drive motor 0",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/drive motor 1",
+              "_title": "drive motor 1",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "1,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/drive motor 2",
+              "_title": "drive motor 2",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "2,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/drive motor 3",
+              "_title": "drive motor 3",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "3,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/tx",
+              "_title": "tx",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/at target setpoint",
+              "_title": "at target setpoint",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "9,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/tx error",
+              "_title": "tx error",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
@@ -419,10 +512,10 @@
         "vgap": 16.0,
         "titleType": 0,
         "tiles": {
-          "8,3": {
+          "7,3": {
             "size": [
               2,
-              2
+              1
             ],
             "content": {
               "_type": "ComboBox Chooser",
@@ -434,7 +527,7 @@
           },
           "0,0": {
             "size": [
-              8,
+              7,
               5
             ],
             "content": {
@@ -453,7 +546,7 @@
               "imageHeight": 0
             }
           },
-          "8,0": {
+          "7,0": {
             "size": [
               2,
               2
@@ -468,7 +561,7 @@
               "Colors/Color when false": "#8B0000FF"
             }
           },
-          "8,2": {
+          "7,2": {
             "size": [
               2,
               1
@@ -477,6 +570,47 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Axel Encoder",
               "_title": "/SmartDashboard/Axel Encoder",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "7,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/tx",
+              "_title": "/SmartDashboard/tx",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/at target setpoint",
+              "_title": "/SmartDashboard/at target setpoint",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "9,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/tx error",
+              "_title": "/SmartDashboard/tx error",
               "_glyph": 148,
               "_showGlyph": false
             }

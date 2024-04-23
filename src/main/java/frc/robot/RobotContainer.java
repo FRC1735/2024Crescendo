@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.LimelightAim;
 import frc.robot.commands.PickUpNote;
 import frc.robot.commands.RotateAxel;
 import frc.robot.commands.ShootNote;
@@ -25,6 +26,7 @@ import frc.robot.subsystems.Axel;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Lighting;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -40,6 +42,7 @@ public class RobotContainer {
   private final Axel axel = new Axel();
   private final Climber climber = new Climber();
   private final Lighting lighting = new Lighting();
+  private final Limelight limelight = new Limelight();
 
 
   // Commands
@@ -55,6 +58,7 @@ public class RobotContainer {
   private final RotateAxel rotateAxelLeftSideShoot = new RotateAxel(axel, 0.25);
   private final RotateAxel rotateAxelForAmp = new RotateAxel(axel, 0.26);
   private final StartShooter startShooter = new StartShooter(shooter, Constants.ShooterConstants.FULL_VELOCITY);
+  private final LimelightAim limelightAim = new LimelightAim(limelight, drive);
   // private final Command gyroOffset = new InstantCommand(drive::gyroOffset,
   // drive);
 
@@ -150,13 +154,19 @@ public class RobotContainer {
     new JoystickButton(driverController, 6).onTrue((new InstantCommand(drive::zeroGyro)));
 
     // left bumper (5) -> shoot at 20% speed
-    new JoystickButton(driverController, 5)
+    /* new JoystickButton(driverController, 5)
       .whileTrue(
         new SequentialCommandGroup(
           rotateAxelForAmp,
           new ShootNote(shooter, collector, ShooterConstants.AMP_VELOCITY)
         )
       );
+      */
+
+      new JoystickButton(driverController, 5)
+      .onTrue(
+          limelightAim
+        );
 
     // b (2) -> collect note with sensor enabeled
     new JoystickButton(driverController, 2).whileTrue(new PickUpNote(collector));
