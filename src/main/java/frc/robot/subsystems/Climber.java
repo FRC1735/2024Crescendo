@@ -20,14 +20,14 @@ public class Climber extends SubsystemBase {
   private final CANSparkFlex motor;
   private final double speed = 1;
 
-  private RelativeEncoder encoder;
+  // private RelativeEncoder encoder;
 
   /** Creates a new Climber. */
   public Climber() {
     motor = new CANSparkFlex(Constants.ClimberConstants.motor, MotorType.kBrushless);
     motor.setIdleMode(IdleMode.kBrake);
 
-    encoder = motor.getEncoder();
+    // encoder = motor.getEncoder();
 
     // motor.enableSoftLimit(SoftLimitDirection.kForward, false);
     // motor.setSoftLimit(SoftLimitDirection.kForward, 0);
@@ -41,11 +41,11 @@ public class Climber extends SubsystemBase {
   public void retract() {
     // motor.set(speed);
 
-    if (encoder.getPosition() < -5) {
-      motor.set(speed);
-    } else {
-      motor.set(0);
-    }
+    // if (encoder.getPosition() < -5) {
+    motor.set(speed);
+    // } else {
+    // motor.set(0);
+    // }
 
   }
 
@@ -57,7 +57,7 @@ public class Climber extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     if (DEBUG) {
-      SmartDashboard.putNumber("Climber Encoder", encoder.getPosition());
+      // SmartDashboard.putNumber("Climber Encoder", encoder.getPosition());
     }
   }
 }
