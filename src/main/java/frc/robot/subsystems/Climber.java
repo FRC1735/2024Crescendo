@@ -29,8 +29,9 @@ public class Climber extends SubsystemBase {
 
     encoder = motor.getEncoder();
 
-    //motor.enableSoftLimit(SoftLimitDirection.kForward, false);
-    //motor.setSoftLimit(SoftLimitDirection.kForward, 0);
+    // motor.enableSoftLimit(SoftLimitDirection.kForward, false);
+    // motor.setSoftLimit(SoftLimitDirection.kForward, 0);
+    motor.enableSoftLimit(SoftLimitDirection.kForward, true);
   }
 
   public void extend() {
@@ -38,14 +39,14 @@ public class Climber extends SubsystemBase {
   }
 
   public void retract() {
-    //motor.set(speed);
-    
+    // motor.set(speed);
+
     if (encoder.getPosition() < -5) {
       motor.set(speed);
     } else {
       motor.set(0);
     }
-    
+
   }
 
   public void stop() {
