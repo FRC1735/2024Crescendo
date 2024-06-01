@@ -31,7 +31,7 @@ public class Climber extends SubsystemBase {
 
     // motor.enableSoftLimit(SoftLimitDirection.kForward, false);
     // motor.setSoftLimit(SoftLimitDirection.kForward, 0);
-    motor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    //motor.enableSoftLimit(SoftLimitDirection.kForward, true);
   }
 
   public void extend() {
