@@ -22,6 +22,7 @@ import frc.robot.commands.RotateAxel;
 import frc.robot.commands.ShootNote;
 import frc.robot.commands.StartShooter;
 import frc.robot.subsystems.Axel;
+import frc.robot.subsystems.BallCannon;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Lighting;
@@ -40,7 +41,7 @@ public class RobotContainer {
   private final Axel axel = new Axel();
   private final Climber climber = new Climber();
   private final Lighting lighting = new Lighting();
-
+  private final BallCannon ballCannon = new BallCannon();
 
   // Commands
   private final PickUpNote pickUpNoteCommand = new PickUpNote(collector);
@@ -85,7 +86,6 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
-    // TODO - hook up to button state if we want this?
     boolean snapToRightAngleEnabled = false;
 
     Command driveFieldOrientedDirectAngle = drive.driveCommand(
@@ -110,16 +110,14 @@ public class RobotContainer {
           }
         });
 
-    
     Command altDriveCommand = drive.driveCommand(
         () -> -MathUtil.applyDeadband(driverController.getLeftY(),
             OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverController.getLeftX(),
             OperatorConstants.LEFT_X_DEADBAND),
-        () -> -MathUtil.applyDeadband(driverController.getRightX(), OperatorConstants.RIGHT_X_DEADBAND)
-        );
+        () -> -MathUtil.applyDeadband(driverController.getRightX(), OperatorConstants.RIGHT_X_DEADBAND));
 
-    //drive.setDefaultCommand(driveFieldOrientedDirectAngle);
+    // drive.setDefaultCommand(driveFieldOrientedDirectAngle);
     drive.setDefaultCommand(altDriveCommand);
     drive.zeroGyro();
 
@@ -141,7 +139,12 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    configureDriverController();
+    // Driver Controller - X: shoot cannon
+    new JoystickButton(driverController, 3).onTrue(new InstantCommand(ballCannon::on, ballCannon))
+        .onFalse(new InstantCommand(ballCannon::off, ballCannon));
+
+    // configureDriverController();
+
     configureOperatorController();
   }
 
@@ -151,63 +154,51 @@ public class RobotContainer {
 
     // left bumper (5) -> shoot at 20% speed
     new JoystickButton(driverController, 5)
-      .whileTrue(
-        new SequentialCommandGroup(
-          rotateAxelForAmp,
-          new ShootNote(shooter, collector, ShooterConstants.AMP_VELOCITY)
-        )
-      );
+        .whileTrue(
+            new SequentialCommandGroup(
+                rotateAxelForAmp,
+                new ShootNote(shooter, collector, ShooterConstants.AMP_VELOCITY)));
 
     // b (2) -> collect note with sensor enabeled
     new JoystickButton(driverController, 2).whileTrue(new PickUpNote(collector));
 
     // x (3) -> aim at speaker from black line, shoot note (100% speed)
     /*
+     * new JoystickButton(driverController, 3)
+     * .whileTrue(
+     * new SequentialCommandGroup(
+     * rotateAxelForSpeakerShotMidzone,
+     * new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
+     */
     new JoystickButton(driverController, 3)
         .whileTrue(
             new SequentialCommandGroup(
-                rotateAxelForSpeakerShotMidzone,
-                new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
-*/
-    new JoystickButton(driverController, 3)
-      .whileTrue(
-        new SequentialCommandGroup(
-          new ParallelCommandGroup(
-            rotateAxelForSpeakerShotMidzone,
-            new StartShooter(shooter, ShooterConstants.FULL_VELOCITY)
-          ),
-          new InstantCommand(collector::in, collector)
-        )
-      ).onFalse(new ParallelCommandGroup(
-        new InstantCommand(shooter::stop, shooter),
-        new InstantCommand(collector::stop, collector)
-      ));            
-
-    
-
-
+                new ParallelCommandGroup(
+                    rotateAxelForSpeakerShotMidzone,
+                    new StartShooter(shooter, ShooterConstants.FULL_VELOCITY)),
+                new InstantCommand(collector::in, collector)))
+        .onFalse(new ParallelCommandGroup(
+            new InstantCommand(shooter::stop, shooter),
+            new InstantCommand(collector::stop, collector)));
 
     // a (1) -> position directly in front of speaker, shoot note (100% speed)
     /*
+     * new JoystickButton(driverController, 1)
+     * .whileTrue(
+     * new SequentialCommandGroup(
+     * rotateAxelForSpeakerShotUpAgainstSpeaker,
+     * new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
+     */
     new JoystickButton(driverController, 1)
         .whileTrue(
             new SequentialCommandGroup(
-                rotateAxelForSpeakerShotUpAgainstSpeaker,
-                new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
-    */
-    new JoystickButton(driverController, 1)
-      .whileTrue(
-        new SequentialCommandGroup(
-          new ParallelCommandGroup(
-            rotateAxelForSpeakerShotUpAgainstSpeaker,
-            new StartShooter(shooter, ShooterConstants.FULL_VELOCITY)
-          ),
-          new InstantCommand(collector::in, collector)
-        )
-      ).onFalse(new ParallelCommandGroup(
-        new InstantCommand(shooter::stop, shooter),
-        new InstantCommand(collector::stop, collector)
-      ));
+                new ParallelCommandGroup(
+                    rotateAxelForSpeakerShotUpAgainstSpeaker,
+                    new StartShooter(shooter, ShooterConstants.FULL_VELOCITY)),
+                new InstantCommand(collector::in, collector)))
+        .onFalse(new ParallelCommandGroup(
+            new InstantCommand(shooter::stop, shooter),
+            new InstantCommand(collector::stop, collector)));
 
     // y (4) -> shoot full speed
     new JoystickButton(driverController, 4)
@@ -216,8 +207,8 @@ public class RobotContainer {
 
   private void configureOperatorController() {
     new JoystickButton(operaController, 6)
-    .onTrue(new InstantCommand(collector::in, collector))
-    .onFalse(new InstantCommand(collector::stop, collector));
+        .onTrue(new InstantCommand(collector::in, collector))
+        .onFalse(new InstantCommand(collector::stop, collector));
 
     // up button -> make axel go up
     new POVButton(operaController, 180).whileTrue(new InstantCommand(axel::up,
@@ -225,11 +216,11 @@ public class RobotContainer {
         .onFalse(new InstantCommand(axel::stop, axel));
 
     // down button -> make axel go down
-    new POVButton(operaController,  0).whileTrue(new InstantCommand(axel::down,
+    new POVButton(operaController, 0).whileTrue(new InstantCommand(axel::down,
         axel))
         .onFalse(new InstantCommand(axel::stop, axel));
 
-    // 
+    //
 
     // y (4) -> retracting climber
     new JoystickButton(operaController, 4).whileTrue(new InstantCommand(climber::retract,
