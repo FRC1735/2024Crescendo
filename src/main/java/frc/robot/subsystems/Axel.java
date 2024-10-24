@@ -115,7 +115,9 @@ public class Axel extends SubsystemBase {
   }
 
   public boolean isAtTarget() {
-    return MathUtils.compareDouble(absoluteEncoder.getPosition(), target);
+    boolean atTarget = MathUtils.compareDouble(absoluteEncoder.getPosition(), target);
+    System.out.println("AT TARGET: " + atTarget); // TODO - remove
+    return atTarget;
   }
 
   private boolean atTopLimit(double position) {

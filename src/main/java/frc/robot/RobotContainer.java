@@ -41,19 +41,20 @@ public class RobotContainer {
   private final Climber climber = new Climber();
   private final Lighting lighting = new Lighting();
 
-
   // Commands
   private final PickUpNote pickUpNoteCommand = new PickUpNote(collector);
   private final ShootNote shootFullSpeedCommand = new ShootNote(shooter, collector,
       Constants.ShooterConstants.FULL_VELOCITY);
   private final ShootNote shootAmpSpeedCommand = new ShootNote(shooter, collector,
       Constants.ShooterConstants.AMP_VELOCITY);
-  private final RotateAxel rotateAxelToCollect = new RotateAxel(axel, 0.2);
-  private final RotateAxel rotateAxelForSpeakerShotUpAgainstSpeaker = new RotateAxel(axel, 0.255);
-  private final RotateAxel rotateAxelForSpeakerShotMidzone = new RotateAxel(axel, 0.31);
-  private final RotateAxel rotateAxelTest = new RotateAxel(axel, 0.3);
-  private final RotateAxel rotateAxelLeftSideShoot = new RotateAxel(axel, 0.25);
-  private final RotateAxel rotateAxelForAmp = new RotateAxel(axel, 0.26);
+
+  private final RotateAxel rotateAxelToCollect = new RotateAxel(axel, /* 0.2 */90);
+  private final RotateAxel rotateAxelForSpeakerShotUpAgainstSpeaker = new RotateAxel(axel, /* 0.255 */ 90);
+  private final RotateAxel rotateAxelForSpeakerShotMidzone = new RotateAxel(axel, /* 0.31 */ 90);
+  private final RotateAxel rotateAxelTest = new RotateAxel(axel, /* 0.3 */ 90);
+  private final RotateAxel rotateAxelLeftSideShoot = new RotateAxel(axel, /* 0.25 */ 90);
+  private final RotateAxel rotateAxelForAmp = new RotateAxel(axel, /* 0.26 */90);
+
   private final StartShooter startShooter = new StartShooter(shooter, Constants.ShooterConstants.FULL_VELOCITY);
   // private final Command gyroOffset = new InstantCommand(drive::gyroOffset,
   // drive);
@@ -110,16 +111,14 @@ public class RobotContainer {
           }
         });
 
-    
     Command altDriveCommand = drive.driveCommand(
         () -> -MathUtil.applyDeadband(driverController.getLeftY(),
             OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driverController.getLeftX(),
             OperatorConstants.LEFT_X_DEADBAND),
-        () -> -MathUtil.applyDeadband(driverController.getRightX(), OperatorConstants.RIGHT_X_DEADBAND)
-        );
+        () -> -MathUtil.applyDeadband(driverController.getRightX(), OperatorConstants.RIGHT_X_DEADBAND));
 
-    //drive.setDefaultCommand(driveFieldOrientedDirectAngle);
+    // drive.setDefaultCommand(driveFieldOrientedDirectAngle);
     drive.setDefaultCommand(altDriveCommand);
     drive.zeroGyro();
 
@@ -151,63 +150,51 @@ public class RobotContainer {
 
     // left bumper (5) -> shoot at 20% speed
     new JoystickButton(driverController, 5)
-      .whileTrue(
-        new SequentialCommandGroup(
-          rotateAxelForAmp,
-          new ShootNote(shooter, collector, ShooterConstants.AMP_VELOCITY)
-        )
-      );
+        .whileTrue(
+            new SequentialCommandGroup(
+                rotateAxelForAmp,
+                new ShootNote(shooter, collector, ShooterConstants.AMP_VELOCITY)));
 
     // b (2) -> collect note with sensor enabeled
     new JoystickButton(driverController, 2).whileTrue(new PickUpNote(collector));
 
     // x (3) -> aim at speaker from black line, shoot note (100% speed)
     /*
+     * new JoystickButton(driverController, 3)
+     * .whileTrue(
+     * new SequentialCommandGroup(
+     * rotateAxelForSpeakerShotMidzone,
+     * new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
+     */
     new JoystickButton(driverController, 3)
         .whileTrue(
             new SequentialCommandGroup(
-                rotateAxelForSpeakerShotMidzone,
-                new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
-*/
-    new JoystickButton(driverController, 3)
-      .whileTrue(
-        new SequentialCommandGroup(
-          new ParallelCommandGroup(
-            rotateAxelForSpeakerShotMidzone,
-            new StartShooter(shooter, ShooterConstants.FULL_VELOCITY)
-          ),
-          new InstantCommand(collector::in, collector)
-        )
-      ).onFalse(new ParallelCommandGroup(
-        new InstantCommand(shooter::stop, shooter),
-        new InstantCommand(collector::stop, collector)
-      ));            
-
-    
-
-
+                new ParallelCommandGroup(
+                    rotateAxelForSpeakerShotMidzone,
+                    new StartShooter(shooter, ShooterConstants.FULL_VELOCITY)),
+                new InstantCommand(collector::in, collector)))
+        .onFalse(new ParallelCommandGroup(
+            new InstantCommand(shooter::stop, shooter),
+            new InstantCommand(collector::stop, collector)));
 
     // a (1) -> position directly in front of speaker, shoot note (100% speed)
     /*
+     * new JoystickButton(driverController, 1)
+     * .whileTrue(
+     * new SequentialCommandGroup(
+     * rotateAxelForSpeakerShotUpAgainstSpeaker,
+     * new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
+     */
     new JoystickButton(driverController, 1)
         .whileTrue(
             new SequentialCommandGroup(
-                rotateAxelForSpeakerShotUpAgainstSpeaker,
-                new ShootNote(shooter, collector, ShooterConstants.FULL_VELOCITY)));
-    */
-    new JoystickButton(driverController, 1)
-      .whileTrue(
-        new SequentialCommandGroup(
-          new ParallelCommandGroup(
-            rotateAxelForSpeakerShotUpAgainstSpeaker,
-            new StartShooter(shooter, ShooterConstants.FULL_VELOCITY)
-          ),
-          new InstantCommand(collector::in, collector)
-        )
-      ).onFalse(new ParallelCommandGroup(
-        new InstantCommand(shooter::stop, shooter),
-        new InstantCommand(collector::stop, collector)
-      ));
+                new ParallelCommandGroup(
+                    rotateAxelForSpeakerShotUpAgainstSpeaker,
+                    new StartShooter(shooter, ShooterConstants.FULL_VELOCITY)),
+                new InstantCommand(collector::in, collector)))
+        .onFalse(new ParallelCommandGroup(
+            new InstantCommand(shooter::stop, shooter),
+            new InstantCommand(collector::stop, collector)));
 
     // y (4) -> shoot full speed
     new JoystickButton(driverController, 4)
@@ -216,8 +203,8 @@ public class RobotContainer {
 
   private void configureOperatorController() {
     new JoystickButton(operaController, 6)
-    .onTrue(new InstantCommand(collector::in, collector))
-    .onFalse(new InstantCommand(collector::stop, collector));
+        .onTrue(new InstantCommand(collector::in, collector))
+        .onFalse(new InstantCommand(collector::stop, collector));
 
     // up button -> make axel go up
     new POVButton(operaController, 180).whileTrue(new InstantCommand(axel::up,
@@ -225,11 +212,11 @@ public class RobotContainer {
         .onFalse(new InstantCommand(axel::stop, axel));
 
     // down button -> make axel go down
-    new POVButton(operaController,  0).whileTrue(new InstantCommand(axel::down,
+    new POVButton(operaController, 0).whileTrue(new InstantCommand(axel::down,
         axel))
         .onFalse(new InstantCommand(axel::stop, axel));
 
-    // 
+    //
 
     // y (4) -> retracting climber
     new JoystickButton(operaController, 4).whileTrue(new InstantCommand(climber::retract,
