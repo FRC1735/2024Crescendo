@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.FaultID;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -33,18 +34,34 @@ public class Axel extends SubsystemBase {
   private double lastKnownD = 0;
   private double target = 0;
   // TODO
-  private double topEncoderLimit = 0.35;
-  private double bottomEncoderLimit = 0.19;
+  private double topEncoderLimit = 120;// 0.35;
+  private double bottomEncoderLimit = 70;// 0.19;
 
   /** Creates a new Axel. */
   public Axel() {
     // rightMotor has absolute encoder attached to it
 
-    rightMotor.setSoftLimit(SoftLimitDirection.kReverse, (float) bottomEncoderLimit);
-    rightMotor.setSoftLimit(SoftLimitDirection.kForward, (float) topEncoderLimit);
+    rightMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+
+    /*
+     * rightMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+     * rightMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)
+     * topEncoderLimit);
+     */
+
+    rightMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+
+    /*
+     * rightMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+     * rightMotor.setSoftLimit(SoftLimitDirection.kForward, (float)
+     * bottomEncoderLimit);
+     */
 
     leftMotor.follow(rightMotor, true);
     absoluteEncoder = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);
+
+    absoluteEncoder.setZeroOffset(270);
+    // absoluteEncoder.setInverted(true); // TODO TODO TODO
     // TODO - set zero offset and inverted in Rev Hardware Client? This seems better
 
     // TODO - none of these values are real
@@ -88,7 +105,6 @@ public class Axel extends SubsystemBase {
   public void stop() {
     rightMotor.stopMotor();
   }
-
 
   public boolean setReference(double newPosition) {
     target = newPosition;
@@ -139,5 +155,18 @@ public class Axel extends SubsystemBase {
     }
 
     SmartDashboard.putNumber("Axel Encoder", currentPosition);
+
+    /*
+     * SmartDashboard.putNumber("Axel Zero Offset", absoluteEncoder.getPosition());
+     * SmartDashboard.putBoolean("Axel - kForward",
+     * rightMotor.isSoftLimitEnabled(SoftLimitDirection.kForward));
+     * SmartDashboard.putBoolean("Axel - kReverse",
+     * rightMotor.isSoftLimitEnabled(SoftLimitDirection.kReverse));
+     * 
+     * SmartDashboard.putBoolean("Axel - fault fwd",
+     * rightMotor.getFault(FaultID.kSoftLimitFwd));
+     * SmartDashboard.putBoolean("Axel - fault rev",
+     * rightMotor.getFault(FaultID.kSoftLimitRev));
+     */
   }
 }
