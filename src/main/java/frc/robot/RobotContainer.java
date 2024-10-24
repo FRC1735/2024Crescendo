@@ -152,7 +152,7 @@ public class RobotContainer {
     new JoystickButton(driverController, 5)
         .whileTrue(
             new SequentialCommandGroup(
-                rotateAxelForAmp,
+                /* rotateAxelForAmp, */
                 new ShootNote(shooter, collector, ShooterConstants.AMP_VELOCITY)));
 
     // b (2) -> collect note with sensor enabeled
@@ -170,7 +170,7 @@ public class RobotContainer {
         .whileTrue(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                    rotateAxelForSpeakerShotMidzone,
+                    /* rotateAxelForSpeakerShotMidzone, */
                     new StartShooter(shooter, ShooterConstants.FULL_VELOCITY)),
                 new InstantCommand(collector::in, collector)))
         .onFalse(new ParallelCommandGroup(
@@ -189,7 +189,7 @@ public class RobotContainer {
         .whileTrue(
             new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                    rotateAxelForSpeakerShotUpAgainstSpeaker,
+                    /* rotateAxelForSpeakerShotUpAgainstSpeaker, */
                     new StartShooter(shooter, ShooterConstants.FULL_VELOCITY)),
                 new InstantCommand(collector::in, collector)))
         .onFalse(new ParallelCommandGroup(
