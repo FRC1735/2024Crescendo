@@ -51,6 +51,9 @@ public class Axel extends SubsystemBase {
     // absoluteEncoder.setInverted(false);
     // absoluteEncoder.setZeroOffset(.57);
 
+    absoluteEncoder.setZeroOffset(0.7505756);
+    absoluteEncoder.setPositionConversionFactor(1);
+
     pidController = rightMotor.getPIDController();
     pidController.setPositionPIDWrappingEnabled(false);
     pidController.setFeedbackDevice(absoluteEncoder);
@@ -88,7 +91,6 @@ public class Axel extends SubsystemBase {
   public void stop() {
     rightMotor.stopMotor();
   }
-
 
   public boolean setReference(double newPosition) {
     target = newPosition;
