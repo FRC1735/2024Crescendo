@@ -187,6 +187,7 @@ public class RobotContainer {
   }
 
   private void configureOperatorController() {
+    // right bumper
     new JoystickButton(operaController, 6)
         .onTrue(new InstantCommand(collector::in, collector))
         .onFalse(new InstantCommand(collector::stop, collector));
