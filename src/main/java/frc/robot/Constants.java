@@ -1,7 +1,5 @@
 package frc.robot;
 
-import com.pathplanner.lib.util.PIDConstants;
-
 public final class Constants {
   public static class OperatorConstants {
     // Joystick Deadband
@@ -9,11 +7,6 @@ public final class Constants {
     public static final double LEFT_Y_DEADBAND = 0.05;
     public static final double RIGHT_X_DEADBAND = 0.05;
     public static final double TURN_CONSTANT = 6;
-  }
-
-  public static final class AutoConstants {
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0);
-    public static final PIDConstants ANGLE_PID = new PIDConstants(0.4, 0, 0.01);
   }
 
   public static final class OIConstants {

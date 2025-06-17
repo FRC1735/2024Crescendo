@@ -28,10 +28,6 @@ import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-
 public class RobotContainer {
   // Subsystems
   private final SwerveSubsystem drive = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve-2024"));
@@ -62,28 +58,8 @@ public class RobotContainer {
   XboxController driverController = new XboxController(0);
   XboxController operaController = new XboxController(1);
 
-  // Choosers
-  private final SendableChooser<Command> autoChooser;
-
   public RobotContainer() {
     configureBindings();
-
-    // Register PathPlanner Commands
-    NamedCommands.registerCommand("PickUpNote", pickUpNoteCommand);
-    NamedCommands.registerCommand("ShootNote", shootFullSpeedCommand);
-    NamedCommands.registerCommand("ShootAmpNote", shootAmpSpeedCommand);
-    NamedCommands.registerCommand("AxelAimSpeaker", rotateAxelForSpeakerShotUpAgainstSpeaker);
-    NamedCommands.registerCommand("ResetGyro", new InstantCommand(drive::zeroGyro, drive));
-    NamedCommands.registerCommand("RotateAxelToCollect", rotateAxelToCollect);
-    NamedCommands.registerCommand("LeftSideSpeekerShootAnge", pickUpNoteCommand);
-    NamedCommands.registerCommand("rotateAxelLeftSideShoot", rotateAxelLeftSideShoot);
-    NamedCommands.registerCommand("rotateAxelForSpeakerShotMidzone", rotateAxelForSpeakerShotMidzone);
-    NamedCommands.registerCommand("startShooter", startShooter);
-    // NamedCommands.registerCommand("gyroOffset", gyroOffset);
-
-    // Generate autoChooser for all PathPlanner commands
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
 
     // TODO - hook up to button state if we want this?
     boolean snapToRightAngleEnabled = false;
@@ -258,7 +234,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    return Commands.none();
   }
 
   public void updateLighting() {

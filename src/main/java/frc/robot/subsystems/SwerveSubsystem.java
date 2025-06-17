@@ -3,11 +3,6 @@ package frc.robot.subsystems;
 import java.io.File;
 import java.util.function.DoubleSupplier;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -39,23 +34,6 @@ public class SwerveSubsystem extends SubsystemBase {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        AutoBuilder.configureHolonomic(
-                this::getPose,
-                this::resetOdometry,
-                this::getRobotOrientedVelocity,
-                this::setChassisSpeed,
-                new HolonomicPathFollowerConfig(
-                        Constants.AutoConstants.TRANSLATION_PID,
-                        new PIDConstants(
-                                swerveDrive.swerveController.config.headingPIDF.p,
-                                swerveDrive.swerveController.config.headingPIDF.i,
-                                swerveDrive.swerveController.config.headingPIDF.d),
-                        maximumSpeed,
-                        swerveDrive.swerveDriveConfiguration.getDriveBaseRadiusMeters(),
-                        new ReplanningConfig()),
-                this::shouldPathFlip,
-                this);
 
         // SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     }
